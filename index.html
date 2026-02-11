@@ -39,12 +39,11 @@
 
         .builder-scene {
             position: relative;
-            width: 400px; /* Beyin için geniş alan */
+            width: 400px;
             height: 300px;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Debug için border açılabilir: border: 1px solid red; */
         }
 
         /* Nöron Noktaları */
@@ -55,119 +54,97 @@
             border-radius: 50%;
             opacity: 0;
             box-shadow: 0 0 5px var(--accent-cyan);
-            /* Hareket ederken yumuşak geçiş */
             transition: top 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
                         left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1),
                         background-color 0.8s, box-shadow 0.8s;
             z-index: 5;
         }
 
-        /* Sinaps Çizgileri (SVG) */
+        /* Sinaps Çizgileri */
         #synapse-svg {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 4;
-            opacity: 0;
-            transition: opacity 1.5s;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 4; opacity: 0; transition: opacity 1.5s;
         }
         .synapse-line {
-            stroke: var(--accent-purple);
-            stroke-width: 1;
-            opacity: 0.3;
-            transition: all 0.8s;
+            stroke: var(--accent-purple); stroke-width: 1; opacity: 0.3; transition: all 0.8s;
         }
 
-        /* --- IŞIKLAR YANSIN EFEKTİ --- */
+        /* IŞIKLAR YANSIN EFEKTİ */
         .builder-scene.lights-on .neuron-dot {
-            background-color: #ffffff; /* Tam Beyaz Parlama */
+            background-color: #ffffff;
             box-shadow: 0 0 10px #ffffff, 0 0 20px var(--accent-cyan);
         }
-
         .builder-scene.lights-on .synapse-line {
-            stroke: var(--text-primary); 
-            stroke-width: 1.5;
-            opacity: 0.6;
+            stroke: var(--text-primary); stroke-width: 1.5; opacity: 0.6;
         }
 
         /* Küçük Tatlı Adam */
         .cute-man {
-            position: absolute;
-            bottom: 20px;
-            left: 50%; /* Başlangıç ortada */
-            transform: translateX(-50%);
-            width: 40px; height: 60px;
-            z-index: 10;
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 40px; height: 60px; z-index: 10;
             transition: left 0.3s linear, transform 0.2s;
         }
-
         .man-head {
-            width: 20px; height: 20px;
-            background: var(--text-primary);
-            border-radius: 50%;
-            margin: 0 auto;
+            width: 20px; height: 20px; background: var(--text-primary); border-radius: 50%; margin: 0 auto;
         }
-        
         .man-body {
-            width: 24px; height: 30px;
-            background: var(--accent-cyan);
-            border-radius: 10px 10px 0 0;
-            margin: -2px auto 0;
-            transition: background-color 0.3s;
+            width: 24px; height: 30px; background: var(--accent-cyan); border-radius: 10px 10px 0 0; margin: -2px auto 0; transition: background-color 0.3s;
         }
 
-        /* SEVİNÇ ANİMASYONU (ZIPLAMA) */
         @keyframes happyJump {
             0%, 100% { transform: translateX(-50%) translateY(0) scaleY(1); }
             50% { transform: translateX(-50%) translateY(-30px) scaleY(1.1); }
         }
-        .cute-man.celebrate {
-            animation: happyJump 0.5s infinite ease-in-out;
-        }
-        .cute-man.celebrate .man-body {
-            background-color: var(--accent-purple); /* Mutluluktan renk değiştirsin */
-        }
+        .cute-man.celebrate { animation: happyJump 0.5s infinite ease-in-out; }
+        .cute-man.celebrate .man-body { background-color: var(--accent-purple); }
 
         /* Konuşma Balonu */
         .speech-bubble {
-            position: absolute;
-            top: -70px; 
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            background: var(--text-primary);
-            color: #0b1a0e;
-            padding: 10px 15px;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            white-space: nowrap;
-            text-align: center;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 20;
+            position: absolute; top: -70px; left: 50%; transform: translateX(-50%) scale(0);
+            background: var(--text-primary); color: #0b1a0e; padding: 10px 15px; border-radius: 15px;
+            font-size: 0.85rem; font-weight: bold; white-space: nowrap; text-align: center;
+            opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 20;
         }
-        
         .speech-bubble::after {
-            content: ''; position: absolute; bottom: -6px; left: 50%;
-            transform: translateX(-50%);
+            content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
             border-width: 6px 6px 0; border-style: solid;
             border-color: var(--text-primary) transparent transparent transparent;
         }
-
         .speech-bubble.show { transform: translateX(-50%) scale(1); opacity: 1; }
 
-        .intro-text-container {
-            height: 30px; margin-top: 30px;
+        /* Intro Text Alanı */
+        .intro-text-wrapper {
+            margin-top: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .intro-main-text {
             font-family: 'Courier New', Courier, monospace;
             color: var(--accent-cyan);
             font-size: 1.3rem;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(214, 205, 136, 0.5);
             letter-spacing: 2px;
+            min-height: 1.5em;
         }
+
+        /* Senin Eklemek İstediğin Not */
+        .intro-sub-text {
+            font-family: 'Segoe UI', sans-serif;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 1s ease;
+            max-width: 80%;
+        }
+        .intro-sub-text.visible { opacity: 0.8; transform: translateY(0); }
 
         .hide-intro { opacity: 0; visibility: hidden; pointer-events: none; }
 
@@ -215,7 +192,6 @@
         .hero-titles { font-size: 1.2rem; color: var(--accent-cyan); margin-bottom: 25px; font-weight: 500; letter-spacing: 1px; }
         .hero p { max-width: 600px; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
         
-        /* RESİMLERİN STİLİ */
         .hero-side-img {
             position: absolute; top: 50%; transform: translateY(-50%); width: 280px; height: auto;
             border-radius: 20px; border: 2px solid var(--accent-cyan);
@@ -297,7 +273,13 @@
                 <div class="man-body"></div>
             </div>
         </div>
-        <div class="intro-text-container" id="intro-text"></div>
+        
+        <div class="intro-text-wrapper">
+            <div class="intro-main-text" id="intro-text"></div>
+            <div class="intro-sub-text" id="sub-text">
+                "I know it's not a perfect brain. Perfection is hard, but achieving it is surprisingly easy."
+            </div>
+        </div>
     </div>
 
     <canvas id="neuroCanvas"></canvas>
@@ -636,6 +618,7 @@
         const neuronContainer = document.getElementById('neuron-container');
         const speechBubble = document.getElementById('speech-bubble');
         const introText = document.getElementById('intro-text');
+        const subText = document.getElementById('sub-text');
         const synapseSvg = document.getElementById('synapse-svg');
         const sceneContainer = document.getElementById('scene-container');
 
@@ -652,7 +635,7 @@
             createdDots.push(dot);
         }
 
-        // *** GÜNCELLENMİŞ KOORDİNATLAR: DAHA GERÇEKÇİ YAN PROFİL BEYİN ŞEKLİ ***
+        // *** ANATOMİK KOORDİNATLAR: YAN PROFİL BEYİN (SOLA BAKAN) ***
         // Merkez noktası ~ 200, 150
         const finalBrainOffsets = [
             // FRONTAL LOBE (Ön taraf - Yuvarlak ve öne doğru çıkık)
@@ -690,7 +673,7 @@
                 const dot = createdDots[i];
                 const target = finalBrainOffsets[i % finalBrainOffsets.length];
                 
-                // Hafif rastgelelik (Doğal görünüm için)
+                // Hafif rastgelelik
                 const noiseX = (Math.random() - 0.5) * 10;
                 const noiseY = (Math.random() - 0.5) * 10;
 
@@ -701,7 +684,7 @@
                 dot.style.top = finalY + 'px';
                 dot.style.opacity = 1;
 
-                // Komşu noktaya çizgi çek (Basit bağlantı mantığı)
+                // Komşu noktaya çizgi çek
                 if (i > 0) {
                     const prevTarget = finalBrainOffsets[(i-1) % finalBrainOffsets.length];
                     const prevX = centerX + prevTarget.x;
@@ -754,11 +737,14 @@
                 await new Promise(r => setTimeout(r, 50));
             }
 
+            // Alt metni göster (Senin eklediğin not)
+            subText.classList.add('visible');
+
             // KUTLAMA: Yazı bitti, adam seviniyor
             man.classList.add('celebrate');
             
             // Kapanış
-            await new Promise(r => setTimeout(r, 1800));
+            await new Promise(r => setTimeout(r, 3000)); // Yazının okunması için biraz daha süre verdim
             overlay.classList.add('hide-intro');
         }
 
