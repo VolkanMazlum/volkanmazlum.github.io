@@ -9,11 +9,11 @@
         /* --- RENK PALETİ (KOYU YEŞİL / HAKİ / KREM) --- */
         :root {
             --bg-color: #0b1a0e;        /* Çok Koyu Orman Yeşili */
-            --card-bg: rgba(28, 46, 30, 0.9); /* Koyu Zeytin Yeşili */
+            --card-bg: rgba(28, 46, 30, 0.95); /* Koyu Zeytin Yeşili */
             --text-primary: #f0f2dd;    /* Krem / Yumurta Kabuğu */
             --text-secondary: #c2c5aa;  /* Soluk Haki */
-            --accent-cyan: #d6cd88;     /* Altın Haki */
-            --accent-purple: #6b8c42;   /* Canlı Zeytin */
+            --accent-cyan: #d6cd88;     /* Altın Haki (Vurgu Rengi 1) */
+            --accent-purple: #6b8c42;   /* Canlı Zeytin (Vurgu Rengi 2) */
             --accent-gradient: linear-gradient(135deg, #d6cd88 0%, #6b8c42 100%);
             --nav-bg: rgba(11, 26, 14, 0.95);
         }
@@ -55,8 +55,8 @@
             opacity: 0;
             box-shadow: 0 0 5px var(--accent-cyan);
             /* Hareket ederken yumuşak geçiş */
-            transition: top 1s cubic-bezier(0.68, -0.55, 0.27, 1.55), 
-                        left 1s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+            transition: top 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), 
+                        left 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55),
                         background-color 0.5s;
             z-index: 5;
         }
@@ -69,23 +69,23 @@
             pointer-events: none;
             z-index: 4;
             opacity: 0;
-            transition: opacity 1s;
+            transition: opacity 1.5s;
         }
         .synapse-line {
             stroke: var(--accent-purple);
-            stroke-width: 1;
-            opacity: 0.6;
+            stroke-width: 1.5;
+            opacity: 0.4;
         }
 
         /* Küçük Tatlı Adam */
         .cute-man {
             position: absolute;
             bottom: 20px;
-            left: 50%;
+            left: 50%; /* Başlangıç ortada */
             transform: translateX(-50%);
             width: 40px; height: 60px;
             z-index: 10;
-            transition: left 0.5s linear, transform 0.2s;
+            transition: left 0.3s linear, transform 0.2s;
         }
 
         .man-head {
@@ -100,15 +100,16 @@
             background: var(--accent-cyan);
             border-radius: 10px 10px 0 0;
             margin: -2px auto 0;
+            transition: background-color 0.3s;
         }
 
-        /* SEVİNÇ ANİMASYONU */
+        /* SEVİNÇ ANİMASYONU (ZIPLAMA) */
         @keyframes happyJump {
             0%, 100% { transform: translateX(-50%) translateY(0) scaleY(1); }
-            50% { transform: translateX(-50%) translateY(-25px) scaleY(1.1); }
+            50% { transform: translateX(-50%) translateY(-30px) scaleY(1.1); }
         }
         .cute-man.celebrate {
-            animation: happyJump 0.4s infinite ease-in-out;
+            animation: happyJump 0.5s infinite ease-in-out;
         }
         .cute-man.celebrate .man-body {
             background-color: var(--accent-purple); /* Mutluluktan renk değiştirsin */
@@ -155,7 +156,7 @@
 
         .hide-intro { opacity: 0; visibility: hidden; pointer-events: none; }
 
-        /* --- BACKGROUND & SECTIONS (Standart) --- */
+        /* --- BACKGROUND & SECTIONS --- */
         #neuroCanvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
@@ -328,11 +329,13 @@
 
     <section id="about">
         <h2>About Me</h2>
+        
         <div class="about-tabs">
             <button class="tab-btn active" onclick="openTab('education')">1. Education</button>
             <button class="tab-btn" onclick="openTab('focus')">2. Focus & Vision</button>
             <button class="tab-btn" onclick="openTab('background')">3. Background</button>
         </div>
+
         <div id="education" class="about-content active highlight-text">
             <p>My academic foundation is built on a rigorous multidisciplinary approach.</p>
             <ul style="list-style: none; margin-top: 15px; line-height: 2;">
@@ -342,27 +345,226 @@
                 <li>🧠 <strong>Minor in Psychology</strong> - Cankaya University</li>
             </ul>
         </div>
+
         <div id="focus" class="about-content highlight-text">
-            <p>My research stands at the intersection of biological intelligence and computational systems.</p>
+            <p>My research stands at the intersection of biological intelligence and computational systems. I am working towards bridging the gap between how brains work and how machines learn.</p>
+            <ul style="list-style: none; margin-top: 10px;">
+                <li>🚀 <strong>Currently working on:</strong> Biologically inspired controllers, Generative AI, AI Agents, and Spiking Neural Networks (SNNs).</li>
+                <li>🧠 <strong>Focus Areas:</strong> Computational Neuroscience, Cognitive Architectures, LLMs, Artificial Intelligence, and NeuroAI.</li>
+            </ul>
         </div>
+
         <div id="background" class="about-content highlight-text">
             <p>I specialize in <strong>Artificial Intelligence and Machine Learning</strong>. I aim to combine biological neural mechanisms and artificial neural networks into what we call <strong>NeuroAI</strong>.</p>
+            <p style="margin-top: 10px;">From analyzing mRNA expression data to simulating cerebellar control systems, my journey is defined by a curiosity to understand intelligence itself.</p>
+            <p style="margin-top: 10px;">I don't just program; I build AI Agents and custom LLMs to streamline your business processes.</p>
+        </div>
+    </section>
+
+    <section id="research">
+        <h2>Research & Academic Experience</h2>
+        <div class="experience-list">
+             
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Junior Research Assistant</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Kyungpook National University (Remote)</span>
+                <div class="card-details">
+                    <p>Developed EMG-HandNet, a CNN-BiLSTM architecture for hand gesture classification using TensorFlow/Keras.
+                    <br>Achieved a classification accuracy of 94% by conducting a comparative analysis of pre-trained models versus custom architectures.
+                    <br>Processed and augmented a dataset of 5,000+ signal samples to improve model robustness in real-time activity recognition.</p>
+                </div>
+            </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Volunteer Undergraduate Researcher</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Cankaya University</span>
+                <div class="card-details">
+                    <p>Worked on Bioinformatics and Healthcare Decision Support Systems under Prof. Hasan Ogul. 
+                    <br>Publication: <em>“miRcuit: A tool for integrating mRNA and miRNA expression data analysis to infer regulatory circuits”</em>.
+                    <br>Served as a Student Teaching Assistant for Data Science and ANN courses.
+                    <br>Facilitated weekly laboratory sessions, guiding students through practical applications of machine learning algorithms.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>Professional Experience</h2>
+        <div class="experience-list">
+             
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Junior AI Engineer</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Breathe Happiness (Milan)</span>
+                <div class="card-details">
+                    <p>Engineered end-to-end ML pipelines and deployed custom NLP Chatbots utilizing fine-tuning methods and the implementation of the RAG system.
+                    <br>Developed and deployed a custom Chatbot (NLP) using fine-tuned models, reducing customer support tickets.
+                    <br>Drafted technical sustainability reports and supporting software documentation.</p>
+                </div>
+            </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Candidate Software Engineer</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Turkish Aerospace (TUSAŞ)</span>
+                <div class="card-details">
+                    <p>Collaborated with a cross-functional team of 10 engineers to deploy agile solutions, resulting in an improvement in operational efficiency.
+                    <br>Integrated emerging technologies into business processes to improve workflows.</p>
+                </div>
+            </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Microsoft Student Ambassador</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Microsoft</span>
+                <div class="card-details">
+                    <p>Obtained 5 Azure certifications (AI, Data, Security). Published "Greywater Usage in Hotels" project using Power Apps.</p>
+                </div>
+            </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Volunteer Summer Intern</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">TUBITAK Space Technologies Research Institute</span>
+                <div class="card-details">
+                    <p>Developed a tool in MATLAB that draws optical lenses based on unique input values.
+                    <br>Researched and documented formulas used in optical systems laboratories.</p>
+                </div>
+            </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Summer Intern</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">STM</span>
+                <div class="card-details">
+                    <p>Worked on image transmission between drones and platforms using MAVlink protocol with C++.</p>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <section id="projects">
         <h2>Key Projects</h2>
         <div class="projects-grid">
+             
             <div class="expandable-card">
                 <div class="card-header">
                     <h3 class="card-title">Near-NES Cerebellar Control</h3>
                     <i class="fas fa-expand-alt card-icon"></i>
                 </div>
                 <div class="card-details">
-                    <p>Developed a biologically inspired controller simulating 10,000+ neuron interactions.</p>
+                    <p>Developed a biologically inspired controller simulating 10,000+ neuron interactions. Achieved 98% success in synaptic adaptation tests.</p>
+                    <div class="tech-tags">
+                        <span class="tag">NESTML</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">C++</span>
+                        <span class="tag">Docker</span>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <a href="https://github.com/near-nes/controller" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=zaqTUlpZjq0" target="_blank" class="project-link">
+                            <i class="fab fa-youtube"></i> Video
+                        </a>
+                    </div>
                 </div>
             </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
+                    <h3 class="card-title">EMG-HandNet</h3>
+                    <i class="fas fa-expand-alt card-icon"></i>
+                </div>
+                <div class="card-details">
+                    <p>Designed a CNN-BiLSTM architecture for hand gesture classification using electromyography (EMG) signals (94% accuracy).</p>
+                    <div class="tech-tags">
+                        <span class="tag">TensorFlow</span>
+                        <span class="tag">Signal Processing</span>
+                        <span class="tag">Keras</span>
+                    </div>
+                    <a href="https://github.com/VolkanMazlum/EMGclassification" target="_blank" class="project-link">
+                        <i class="fab fa-github"></i> Code
+                    </a>
+                </div>
             </div>
+             
+            <div class="expandable-card">
+                <div class="card-header">
+                    <h3 class="card-title">NLP Analysis & GenAI</h3>
+                    <i class="fas fa-expand-alt card-icon"></i>
+                </div>
+                <div class="card-details">
+                    <p>Analyzed dialogue characteristics, compared generation models (Flan-T5, DialoGPT) and implemented fine-tuning for metadata prediction.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">NLP</span>
+                        <span class="tag">GPT-2</span>
+                        <span class="tag">BART</span>
+                    </div>
+                    <a href="https://github.com/VolkanMazlum/NLPProject" target="_blank" class="project-link">
+                        <i class="fab fa-github"></i> Code
+                    </a>
+                </div>
+            </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
+                    <h3 class="card-title">Drowsy Driver Detection</h3>
+                    <i class="fas fa-expand-alt card-icon"></i>
+                </div>
+                <div class="card-details">
+                    <p>Built a real-time web-based detection system using CNNs to identify driver fatigue.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">CNN</span>
+                        <span class="tag">Flask</span>
+                        <span class="tag">GAN</span>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <a href="https://github.com/VolkanMazlum/ceng-407-408-2022-2023-Drowsy-Driver-Detection-System" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                         <a href="https://www.youtube.com/watch?v=6BXfPS3N4ak" target="_blank" class="project-link">
+                            <i class="fab fa-youtube"></i> Video
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
+                    <h3 class="card-title">Bioinformatics Decision Support</h3>
+                    <i class="fas fa-expand-alt card-icon"></i>
+                </div>
+                <div class="card-details">
+                    <p>Integrated mRNA and miRNA expression data to infer regulatory circuits (miRcuit).</p>
+                    <div class="tech-tags">
+                        <span class="tag">ML Pipelines</span>
+                        <span class="tag">Data Mining</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </section>
 
     <section id="skills">
@@ -372,6 +574,11 @@
             <div class="skill-badge"><i class="fas fa-code"></i> C/C++</div>
             <div class="skill-badge"><i class="fas fa-brain"></i> TensorFlow</div>
             <div class="skill-badge"><i class="fas fa-fire"></i> PyTorch</div>
+            <div class="skill-badge"><i class="fas fa-network-wired"></i> NEST Simulator</div>
+            <div class="skill-badge"><i class="fas fa-calculator"></i> MATLAB</div>
+            <div class="skill-badge"><i class="fab fa-docker"></i> Docker</div>
+            <div class="skill-badge"><i class="fab fa-microsoft"></i> Azure Certified</div>
+            <div class="skill-badge"><i class="fab fa-git-alt"></i> Git</div>
         </div>
     </section>
 
@@ -385,15 +592,23 @@
         // --- MOBILE/TABLET INTERACTION FIX ---
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.expandable-card');
-            cards.forEach(card => card.addEventListener('click', () => card.classList.toggle('active')));
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
+            });
         });
 
         // --- ABOUT ME TABS LOGIC ---
         function openTab(tabName) {
             const contents = document.getElementsByClassName("about-content");
-            for (let i = 0; i < contents.length; i++) contents[i].classList.remove("active");
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active");
+            }
             const btns = document.getElementsByClassName("tab-btn");
-            for (let i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+            for (let i = 0; i < btns.length; i++) {
+                btns[i].classList.remove("active");
+            }
             document.getElementById(tabName).classList.add("active");
             const clickedBtn = Array.from(btns).find(btn => btn.getAttribute('onclick').includes(tabName));
             if(clickedBtn) clickedBtn.classList.add("active");
@@ -424,7 +639,7 @@
         }
 
         // Beyin Şekli Koordinatları (Basit bir beyin silüeti için yaklaşık noktalar)
-        // Center (160, 125) referans alınarak
+        // Center (160, 110) referans alınarak (Sahne ortası)
         const brainShapeOffsets = [
             {x:0, y:-50}, {x:30, y:-45}, {x:55, y:-25}, {x:65, y:0}, {x:60, y:25}, {x:40, y:45}, // Ön/Alt
             {x:0, y:50}, {x:-40, y:40}, {x:-60, y:15}, {x:-65, y:-10}, {x:-50, y:-35}, {x:-25, y:-45}, // Arka/Üst
@@ -442,7 +657,7 @@
 
             for (let i = 0; i < createdDots.length; i++) {
                 const dot = createdDots[i];
-                // Eğer yeterince şekil noktamız varsa oraya gitsin, yoksa rastgele birine yakın dursun
+                // Döngüsel olarak hedef koordinat seç
                 const target = brainShapeOffsets[i % brainShapeOffsets.length];
                 
                 // Biraz rastgelelik ekle ki çok yapay durmasın
@@ -458,7 +673,6 @@
 
                 // Komşu noktaya çizgi çek (Basit bağlantı mantığı)
                 if (i > 0) {
-                    // Önceki nokta koordinatları (yaklaşık)
                     const prevTarget = brainShapeOffsets[(i-1) % brainShapeOffsets.length];
                     const prevX = centerX + prevTarget.x;
                     const prevY = centerY + prevTarget.y;
@@ -472,6 +686,7 @@
         }
 
         async function runConstructionAnimation() {
+            // Başlangıç beklemesi
             await new Promise(r => setTimeout(r, 500));
 
             // Adam sağa sola koşup nöron bıraksın
@@ -483,6 +698,7 @@
             ];
 
             for (let move of moves) {
+                // Adamı hareket ettir
                 man.style.left = move.x + 'px';
                 
                 // Hareket süresince nöron üret
@@ -494,7 +710,7 @@
                 }
             }
 
-            // Adam durdu, konuşma balonu
+            // Adam durdu, konuşma balonu çıkar
             speechBubble.classList.add('show');
             await new Promise(r => setTimeout(r, 2000));
             speechBubble.classList.remove('show');
@@ -504,7 +720,7 @@
             organizeDotsIntoBrain();
 
             // Yazı Yazma
-            await new Promise(r => setTimeout(r, 1000));
+            await new Promise(r => setTimeout(r, 1200)); // Nöronlar yerleşsin diye bekle
             const finalMsg = "Ready to think.";
             for (let char of finalMsg) {
                 introText.innerHTML += char;
@@ -515,7 +731,7 @@
             man.classList.add('celebrate');
             
             // Kapanış
-            await new Promise(r => setTimeout(r, 1200));
+            await new Promise(r => setTimeout(r, 1500));
             overlay.classList.add('hide-intro');
         }
 
@@ -524,60 +740,99 @@
         // --- NEURO CANVAS LOGIC (Standart) ---
         const canvas = document.getElementById('neuroCanvas');
         const ctx = canvas.getContext('2d');
+        
         let width, height;
         let particles = [];
         const particleCount = 60; 
         const connectionDistance = 150; 
         const mouseDistance = 200; 
 
-        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
         window.addEventListener('resize', resize);
         resize();
 
         let mouse = { x: null, y: null };
-        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
 
         class Particle {
             constructor() {
-                this.x = Math.random() * width; this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5;
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
                 this.size = Math.random() * 2 + 1;
             }
+
             update() {
-                this.x += this.vx; this.y += this.vy;
+                this.x += this.vx;
+                this.y += this.vy;
+
                 if (this.x < 0 || this.x > width) this.vx *= -1;
                 if (this.y < 0 || this.y > height) this.vy *= -1;
+
                 if (mouse.x != null) {
-                    let dx = mouse.x - this.x; let dy = mouse.y - this.y;
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
                     let distance = Math.sqrt(dx*dx + dy*dy);
                     if (distance < mouseDistance) {
+                        const forceDirectionX = dx / distance;
+                        const forceDirectionY = dy / distance;
                         const force = (mouseDistance - distance) / mouseDistance;
-                        this.x -= (dx/distance) * force * 0.6; this.y -= (dy/distance) * force * 0.6;
+                        const directionX = forceDirectionX * force * 0.6;
+                        const directionY = forceDirectionY * force * 0.6;
+                        this.x -= directionX;
+                        this.y -= directionY;
                     }
                 }
             }
-            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = '#d6cd88'; ctx.fill(); }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#d6cd88';
+                ctx.fill();
+            }
         }
 
-        function init() { particles = []; for (let i = 0; i < particleCount; i++) particles.push(new Particle()); }
+        function init() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
             for (let i = 0; i < particles.length; i++) {
-                particles[i].update(); particles[i].draw();
+                particles[i].update();
+                particles[i].draw();
                 for (let j = i; j < particles.length; j++) {
-                    let dx = particles[i].x - particles[j].x; let dy = particles[i].y - particles[j].y;
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
                     let distance = Math.sqrt(dx*dx + dy*dy);
                     if (distance < connectionDistance) {
                         ctx.beginPath();
-                        ctx.strokeStyle = 'rgba(107, 140, 66, ' + (1 - distance/connectionDistance) * 0.4 + ')';
-                        ctx.lineWidth = 1; ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+                        let opacity = 1 - (distance / connectionDistance);
+                        ctx.strokeStyle = 'rgba(107, 140, 66, ' + opacity * 0.4 + ')';
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
                     }
                 }
             }
             requestAnimationFrame(animate);
         }
-        init(); animate();
+
+        init();
+        animate();
     </script>
+
 </body>
 </html>
