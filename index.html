@@ -159,6 +159,7 @@
             align-items: center;
             text-align: center;
             padding-top: 60px;
+            position: relative; /* Resimler buna göre konumlanacak */
         }
 
         .hero h1 {
@@ -167,7 +168,6 @@
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Hafif glitch efekti verilebilir ama sadelik için parlama ekleyelim */
             filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.3));
         }
 
@@ -186,6 +186,34 @@
             font-size: 1.1rem;
         }
 
+        /* --- YENİ EKLENEN RESİM STİLLERİ --- */
+        .hero-side-img {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%); /* Dikey ortalama */
+            width: 280px; /* Genişliği buradan ayarlayabilirsin */
+            height: auto;
+            border-radius: 20px;
+            border: 2px solid var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3); /* Neon glow */
+            z-index: 10;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-side-img:hover {
+            transform: translateY(-50%) scale(1.05); /* Üzerine gelince hafif büyüme */
+        }
+
+        .img-left {
+            left: 5%;
+        }
+
+        .img-right {
+            right: 5%;
+        }
+
+        /* --- SOSYAL BUTONLAR --- */
         .social-btn {
             display: inline-flex;
             align-items: center;
@@ -214,7 +242,7 @@
             padding: 30px;
             border-radius: 15px;
             border-left: 5px solid var(--accent-purple);
-            backdrop-filter: blur(5px); /* Arka planı hafif buzlu göster */
+            backdrop-filter: blur(5px); 
             border: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -292,7 +320,6 @@
             overflow: hidden;
         }
 
-        /* Kart hover olunca kenarlar parlasın */
         .project-card:hover {
             transform: translateY(-5px);
             border-color: var(--accent-cyan);
@@ -391,6 +418,11 @@
         }
 
         /* MOBİL UYUM */
+        @media (max-width: 1200px) {
+            /* Ekran küçülünce yan resimleri gizle ki yazının üstüne binmesin */
+            .hero-side-img { display: none; }
+        }
+        
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .hero h1 { font-size: 2.5rem; }
@@ -417,6 +449,10 @@
     </nav>
 
     <header id="home" class="hero">
+        <img src="SOL_RESIM_DOSYASI.jpg" alt="Profile Left" class="hero-side-img img-left">
+
+        <img src="SAG_RESIM_DOSYASI.jpg" alt="Profile Right" class="hero-side-img img-right">
+
         <p style="margin-bottom: 0; color: var(--accent-cyan);">Hi there, I'm</p>
         <h1>Volkan Mazlum</h1>
         <div class="hero-titles">
