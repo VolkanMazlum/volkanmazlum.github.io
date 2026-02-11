@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volkan Mazlum | NeuroAI Researcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- RENK PALETİ VE TEMEL AYARLAR --- */
+        :root {
+            --bg-color: #0f172a;        /* Derin Lacivert (Slate 900) */
+            --card-bg: #1e293b;         /* Daha açık lacivert (Slate 800) */
+            --text-primary: #f1f5f9;    /* Kırık Beyaz */
+            --text-secondary: #94a3b8;  /* Gri */
+            --accent-cyan: #06b6d4;     /* Canlı Cyan */
+            --accent-purple: #8b5cf6;   /* Mor */
+            --accent-gradient: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
+            --nav-bg: rgba(15, 23, 42, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Yumuşak kaydırma */
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* --- NAVİGASYON --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* --- ANA BÖLÜMLER (SECTION) --- */
+        section {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background: var(--accent-gradient);
+            margin-top: 5px;
+            border-radius: 2px;
+        }
+
+        /* --- HERO (GİRİŞ) --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-titles {
+            font-size: 1.2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .hero p {
+            max-width: 600px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin: 0 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.2);
+        }
+
+        /* --- ABOUT --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent-purple);
+        }
+
+        .highlight-text strong {
+            color: var(--accent-cyan);
+        }
+
+        /* --- DENEYİM (TIMELINE) --- */
+        .timeline {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 40px;
+            border-left: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .timeline-company {
+            color: var(--accent-cyan);
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .timeline-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* --- PROJE KARTLARI --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-cyan);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        /* --- SKILLS --- */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .skill-badge {
+            background: var(--card-bg);
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+        
+        .skill-badge i {
+            color: var(--accent-cyan);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px;
+        }
+
+        .quote {
+            font-style: italic;
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* MOBİL UYUM */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Mobilde menüyü basitleştirdik */
+            .hero h1 { font-size: 2.5rem; }
+            section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">VM.</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#research">Research</a>
+                <a href="#experience">Professional</a>
+                <a href="#projects">Projects</a>
+                <a href="#skills">Skills</a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="home" class="hero">
+        <p style="margin-bottom: 0; color: var(--accent-cyan);">Hi there, I'm</p>
+        <h1>Volkan Mazlum</h1>
+        <div class="hero-titles">
+            AI Engineer | NeuroAI Researcher | Mathematician
+        </div>
+        <p>
+            Bridging the gap between biological neural mechanisms and artificial intelligence. 
+            M.Sc. Candidate at <strong>Politecnico di Milano</strong>.
+        </p>
+        <div>
+            <a href="https://www.linkedin.com/in/volkanmazlum/" target="_blank" class="social-btn">
+                <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+            <a href="mailto:volkanmazlumvm@gmail.com" class="social-btn">
+                <i class="fas fa-envelope"></i> Email Me
+            </a>
+            <a href="https://github.com/volkanmazlum" target="_blank" class="social-btn">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+        </div>
+    </header>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="about-grid highlight-text">
+            <p>
+                I am a Master's graduate at <strong>Politecnico di Milano</strong>, specializing in <strong>Artificial Intelligence and Machine Learning</strong>. My academic journey stands at the intersection of biological intelligence and computational systems.
+            </p>
+            <p>
+                With a background in <strong>Computer Engineering</strong>, a Double Major in <strong>Mathematics</strong>, and a Minor in <strong>Psychology</strong>, I aim to combine biological neural mechanisms and artificial neural networks into what we call <strong>NeuroAI</strong>.
+            </p>
+            <ul style="list-style: none; margin-top: 10px;">
+                <li>🚀 <strong>Currently working on:</strong> Biologically inspired controllers and Spiking Neural Networks (SNNs).</li>
+                <li>🧠 <strong>Focus Areas:</strong> Computational Neuroscience, Cognitive Architectures.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="research">
+        <h2>Research & Academic Experience</h2>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <div class="timeline-title">Junior Research Assistant</div>
+                <span class="timeline-company">Kyungpook National University (Remote)</span>
+                <p class="timeline-desc">Conducted comparative analysis of pre-trained models vs. custom architectures for signal processing.</p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-title">Volunteer Undergraduate Researcher</div>
+                <span class="timeline-company">Cankaya University</span>
+                <p class="timeline-desc">
+                    Worked on Bioinformatics and Healthcare Decision Support Systems under Prof. Hasan Ogul. 
+                    <br>Publication: <em>“miRcuit: A tool for integrating mRNA and miRNA expression data analysis to infer regulatory circuits”</em>.
+                    <br>Served as a Student Teaching Assistant for Data Science and ANN courses.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-title">Volunteer Summer Intern</div>
+                <span class="timeline-company">TUBITAK Space Technologies Research Institute</span>
+                <p class="timeline-desc">Developed a tool in MATLAB that draws optical lenses based on unique input values. Researched formulas used in optical systems.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>Professional Experience</h2>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <div class="timeline-title">Junior AI Engineer</div>
+                <span class="timeline-company">Breathe Happiness (Milan)</span>
+                <p class="timeline-desc">Engineered end-to-end ML pipelines and deployed custom NLP Chatbots utilizing fine-tuning methods.</p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-title">Candidate Software Engineer</div>
+                <span class="timeline-company">Turkish Aerospace (TUSAŞ)</span>
+                <p class="timeline-desc">Collaborated on agile solutions and integrated emerging technologies into business workflows.</p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-title">Microsoft Student Ambassador</div>
+                <span class="timeline-company">Microsoft</span>
+                <p class="timeline-desc">Obtained 5 Azure certifications (AI, Data, Security). Published "Greywater Usage in Hotels" project using Power Apps.</p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-title">Summer Intern</div>
+                <span class="timeline-company">STM</span>
+                <p class="timeline-desc">Worked on image transmission between drones and platforms using MAVlink protocol with C++.</p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-title">Summer Intern</div>
+                <span class="timeline-company">TürkTelekom</span>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Key Projects</h2>
+        <div class="projects-grid">
+            
+            <div class="project-card">
+                <div>
+                    <h3 class="project-title">Near-NES Cerebellar Control</h3>
+                    <p class="project-desc">Developed a biologically inspired controller simulating 10,000+ neuron interactions. Achieved 98% success in synaptic adaptation tests.</p>
+                </div>
+                <div class="tech-tags">
+                    <span class="tag">NESTML</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">C++</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div>
+                    <h3 class="project-title">EMG-HandNet</h3>
+                    <p class="project-desc">Designed a CNN-BiLSTM architecture for hand gesture classification using electromyography (EMG) signals (94% accuracy).</p>
+                </div>
+                <div class="tech-tags">
+                    <span class="tag">TensorFlow</span>
+                    <span class="tag">Signal Processing</span>
+                    <span class="tag">Keras</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div>
+                    <h3 class="project-title">Drowsy Driver Detection</h3>
+                    <p class="project-desc">Built a real-time web-based detection system using CNNs to identify driver fatigue.</p>
+                </div>
+                <div class="tech-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">CNN</span>
+                    <span class="tag">Flask</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div>
+                    <h3 class="project-title">Bioinformatics Decision Support</h3>
+                    <p class="project-desc">Integrated mRNA and miRNA expression data to infer regulatory circuits (miRcuit).</p>
+                </div>
+                <div class="tech-tags">
+                    <span class="tag">ML Pipelines</span>
+                    <span class="tag">Data Mining</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>Technical Background</h2>
+        <div class="skills-container">
+            <div class="skill-badge"><i class="fab fa-python"></i> Python</div>
+            <div class="skill-badge"><i class="fas fa-code"></i> C++</div>
+            <div class="skill-badge"><i class="fas fa-brain"></i> TensorFlow</div>
+            <div class="skill-badge"><i class="fas fa-fire"></i> PyTorch</div>
+            <div class="skill-badge"><i class="fas fa-network-wired"></i> NEST Simulator</div>
+            <div class="skill-badge"><i class="fas fa-calculator"></i> MATLAB</div>
+            <div class="skill-badge"><i class="fab fa-docker"></i> Docker</div>
+            <div class="skill-badge"><i class="fab fa-microsoft"></i> Azure Certified</div>
+            <div class="skill-badge"><i class="fab fa-git-alt"></i> Git</div>
+        </div>
+    </section>
+
+    <footer>
+        <span class="quote">"Understanding the human brain is the key to unlocking the next generation of Artificial Intelligence."</span>
+        <br><br>
+        <p>© 2024 Volkan Mazlum. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
