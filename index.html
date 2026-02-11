@@ -292,6 +292,9 @@
             /* Başlangıç (Kapalı) Hali */
             height: 90px; /* Sadece başlık sığacak kadar */
             margin-bottom: 20px;
+            
+            /* Tablet/Mobil için dokunma iyileştirmesi */
+            -webkit-tap-highlight-color: transparent;
         }
 
         .expandable-card::after {
@@ -305,7 +308,8 @@
             transition: 0.3s;
         }
 
-        .expandable-card:hover {
+        /* Hover VEYA .active sınıfı (JS ile tıklanınca) */
+        .expandable-card:hover, .expandable-card.active {
             height: auto; /* İçeriğe göre uza */
             min-height: 200px;
             transform: scale(1.03);
@@ -315,7 +319,7 @@
             background: #1e293b;
         }
 
-        .expandable-card:hover::after { opacity: 0; }
+        .expandable-card:hover::after, .expandable-card.active::after { opacity: 0; }
 
         .card-header {
             display: flex;
@@ -346,7 +350,7 @@
             transition: 0.3s;
         }
 
-        .expandable-card:hover .card-icon {
+        .expandable-card:hover .card-icon, .expandable-card.active .card-icon {
             color: var(--accent-cyan);
             opacity: 1;
             transform: rotate(45deg); /* Hafif bir animasyon */
@@ -362,7 +366,7 @@
             font-size: 0.95rem;
         }
 
-        .expandable-card:hover .card-details {
+        .expandable-card:hover .card-details, .expandable-card.active .card-details {
             opacity: 1;
             transform: translateY(0);
         }
@@ -419,10 +423,6 @@
             .nav-links { display: none; }
             .hero h1 { font-size: 2.5rem; }
             section { padding: 40px 20px; }
-            /* Mobilde kartlar açık kalsın, hover zor */
-            .expandable-card { height: auto; min-height: auto; }
-            .card-details { opacity: 1; transform: translateY(0); }
-            .expandable-card::after { display: none; }
         }
     </style>
 </head>
@@ -489,7 +489,7 @@
         <div id="education" class="about-content active highlight-text">
             <p>My academic foundation is built on a rigorous multidisciplinary approach.</p>
             <ul style="list-style: none; margin-top: 15px; line-height: 2;">
-                <li>🎓 <strong>M.Sc. Artificial Intelligence & ML</strong> - Politecnico di Milano</li>
+                <li>🎓 <strong>M.Sc. Computer Science and Engineering</strong> - Politecnico di Milano</li>
                 <li>🎓 <strong>B.Sc. Computer Engineering</strong> - Cankaya University</li>
                 <li>📐 <strong>Double Major in Mathematics</strong> - Cankaya University</li>
                 <li>🧠 <strong>Minor in Psychology</strong> - Cankaya University</li>
@@ -739,6 +739,19 @@
     </footer>
 
     <script>
+        // --- MOBILE/TABLET INTERACTION FIX ---
+        // Telefon ve tabletlerde tıklama ile açılıp kapanmayı sağlayan kod
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.expandable-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Tıklanan karta 'active' sınıfını ekle/çıkar
+                    card.classList.toggle('active');
+                });
+            });
+        });
+
         // --- ABOUT ME TABS LOGIC ---
         function openTab(tabName) {
             const contents = document.getElementsByClassName("about-content");
@@ -754,11 +767,10 @@
             if(clickedBtn) clickedBtn.classList.add("active");
         }
 
-        // --- INTRO TYPEWRITER ANIMATION (FIXED) ---
+        // --- INTRO TYPEWRITER ANIMATION ---
         const terminalText = document.getElementById('terminal-text');
         const overlay = document.getElementById('intro-overlay');
         
-        // Metinler
         const lines = [
             "while(thinking) {",
             "    evolve();",
@@ -770,22 +782,18 @@
         async function typeWriter() {
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i];
-                // Her satırı yaz
                 for (let j = 0; j < line.length; j++) {
                     terminalText.innerHTML += line[j];
-                    await new Promise(r => setTimeout(r, 50)); // Yazma hızı
+                    await new Promise(r => setTimeout(r, 50));
                 }
-                // Satır sonu <br> ekle
                 terminalText.innerHTML += "<br>";
-                await new Promise(r => setTimeout(r, 200)); // Satır arası bekleme
+                await new Promise(r => setTimeout(r, 200));
             }
 
-            // Animasyon bitince bekle ve overlay'i kaldır
             await new Promise(r => setTimeout(r, 1000));
             overlay.classList.add('hide-intro');
         }
         
-        // Sayfa yüklenince başlat
         window.onload = typeWriter;
 
         // --- NEURO CANVAS LOGIC ---
