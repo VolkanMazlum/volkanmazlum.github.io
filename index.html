@@ -6,16 +6,16 @@
     <title>Volkan Mazlum | NeuroAI Researcher</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- RENK PALETİ VE TEMEL AYARLAR --- */
+        
         :root {
-            --bg-color: #0f172a;        /* Derin Lacivert */
-            --card-bg: rgba(30, 41, 59, 0.85);
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --accent-cyan: #06b6d4;     /* Neuro Cyan */
-            --accent-purple: #8b5cf6;   /* Synapse Purple */
-            --accent-gradient: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
-            --nav-bg: rgba(15, 23, 42, 0.9);
+            --bg-color: #0b1a0e;        /* Çok Koyu Orman Yeşili */
+            --card-bg: rgba(28, 46, 30, 0.9); /* Koyu Zeytin Yeşili */
+            --text-primary: #f0f2dd;    /* Krem / Yumurta Kabuğu */
+            --text-secondary: #c2c5aa;  /* Soluk Haki / Gri-Yeşil */
+            --accent-cyan: #d6cd88;     /* Haki / Altın Sarısı */
+            --accent-purple: #6b8c42;   /* Canlı Zeytin Yeşili  */
+            --accent-gradient: linear-gradient(135deg, #d6cd88 0%, #6b8c42 100%);
+            --nav-bg: rgba(11, 26, 14, 0.95);
         }
 
         * {
@@ -36,15 +36,15 @@
             overflow-x: hidden;
         }
 
-        /* --- INTRO ANIMASYONU (TERMINAL) --- */
+        /* --- INTRO ANIMASYONU --- */
         #intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #020617; /* Simsiyah */
-            z-index: 99999; /* En üstte */
+            background-color: #050f06; /* Simsiyah-Yeşil */
+            z-index: 99999;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -52,27 +52,77 @@
             transition: opacity 1s ease-out, visibility 1s;
         }
 
-        .terminal-container {
+        .builder-scene {
+            position: relative;
+            width: 200px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Beyin İkonu */
+        .brain-icon {
+            font-size: 4rem;
+            color: var(--accent-purple);
+            opacity: 0.2;
+            transform: scale(0.5);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 10px rgba(107, 140, 66, 0.5));
+        }
+
+        .brain-icon.step-1 { opacity: 0.5; transform: scale(0.7); color: #8fa860; }
+        .brain-icon.step-2 { opacity: 0.8; transform: scale(0.9); color: #b3bd70; }
+        .brain-icon.step-3 { opacity: 1; transform: scale(1.1); color: var(--accent-cyan); filter: drop-shadow(0 0 20px var(--accent-cyan)); }
+
+        
+        .cute-man {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 60px;
+            animation: buildMove 2s infinite ease-in-out;
+        }
+
+        .man-head {
+            width: 20px;
+            height: 20px;
+            background: var(--text-primary);
+            border-radius: 50%;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .man-body {
+            width: 24px;
+            height: 30px;
+            background: var(--accent-cyan);
+            border-radius: 10px 10px 0 0;
+            margin: -2px auto 0;
+        }
+
+        @keyframes buildMove {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(40px) translateY(-10px); } /* Zıpla ve sağa git */
+            50% { transform: translateX(80px) translateY(0); }
+            75% { transform: translateX(40px) translateY(-10px); } /* Zıpla ve sola dön */
+            100% { transform: translateX(0) translateY(0); }
+        }
+
+        .intro-text {
             font-family: 'Courier New', Courier, monospace;
-            font-size: 1.5rem; /* Büyük font */
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            min-height: 1.5em;
+        }
+
+        .ready-text {
             color: var(--accent-cyan);
-            text-align: left;
-            min-width: 300px;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 24px;
-            background-color: var(--accent-purple);
-            animation: blink 0.8s infinite;
-            vertical-align: middle;
-            margin-left: 5px;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(214, 205, 136, 0.5);
         }
 
         .hide-intro {
@@ -89,13 +139,14 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            opacity: 0.4;
+            /* Yeşil tonlu gradient arka plan */
+            background: radial-gradient(circle at center, #162e1a 0%, #0b1a0e 100%);
+            opacity: 0.6;
         }
 
         /* --- SCROLLBAR --- */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple)); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
 
@@ -107,7 +158,7 @@
             background: var(--nav-bg);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+            border-bottom: 1px solid rgba(214, 205, 136, 0.2); /* Haki sınır */
         }
 
         .nav-container {
@@ -125,7 +176,7 @@
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+            text-shadow: 0 0 20px rgba(107, 140, 66, 0.5);
         }
 
         .nav-links {
@@ -166,7 +217,7 @@
         h2::after {
             content: ''; display: block; width: 60%; height: 4px;
             background: var(--accent-gradient); margin-top: 5px;
-            border-radius: 2px; box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+            border-radius: 2px; box-shadow: 0 0 10px rgba(107, 140, 66, 0.5);
         }
 
         /* --- HERO --- */
@@ -187,7 +238,7 @@
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.3));
+            filter: drop-shadow(0 0 5px rgba(214, 205, 136, 0.3));
         }
 
         .hero-titles {
@@ -213,7 +264,7 @@
             height: auto;
             border-radius: 20px;
             border: 2px solid var(--accent-cyan);
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            box-shadow: 0 0 20px rgba(107, 140, 66, 0.3);
             z-index: 10;
             object-fit: cover;
             transition: transform 0.3s ease;
@@ -224,14 +275,14 @@
 
         .social-btn {
             display: inline-flex; align-items: center; gap: 10px;
-            background: rgba(30, 41, 59, 0.6); color: var(--text-primary);
+            background: rgba(28, 46, 30, 0.6); color: var(--text-primary);
             padding: 12px 25px; border-radius: 30px; text-decoration: none;
             margin: 0 10px; border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(5px); transition: all 0.3s;
         }
         .social-btn:hover {
             border-color: var(--accent-cyan); transform: translateY(-3px);
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.1);
+            box-shadow: 0 0 15px rgba(214, 205, 136, 0.3); background: rgba(107, 140, 66, 0.2);
         }
 
         /* --- ABOUT TABS --- */
@@ -255,8 +306,9 @@
 
         .tab-btn.active, .tab-btn:hover {
             background: var(--accent-cyan);
-            color: #fff;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+            color: #0b1a0e;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(214, 205, 136, 0.4);
         }
 
         .about-content {
@@ -274,8 +326,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .highlight-text strong { color: var(--accent-cyan); }
 
-        /* --- ORTAK KART TASARIMI (PROJELER ve DENEYİM İÇİN) --- */
-        /* Bu stil hem .project-card hem de .experience-card için geçerli olacak */
+        /* --- ORTAK KART TASARIMI --- */
         .expandable-card {
             background: var(--card-bg);
             padding: 25px;
@@ -288,12 +339,8 @@
             flex-direction: column;
             justify-content: flex-start;
             cursor: pointer;
-            
-            /* Başlangıç (Kapalı) Hali */
-            height: 90px; /* Sadece başlık sığacak kadar */
+            height: 90px;
             margin-bottom: 20px;
-            
-            /* Tablet/Mobil için dokunma iyileştirmesi */
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -308,15 +355,14 @@
             transition: 0.3s;
         }
 
-        /* Hover VEYA .active sınıfı (JS ile tıklanınca) */
         .expandable-card:hover, .expandable-card.active {
-            height: auto; /* İçeriğe göre uza */
+            height: auto;
             min-height: 200px;
             transform: scale(1.03);
             z-index: 10;
             border-color: var(--accent-cyan);
-            box-shadow: 0 10px 40px -10px rgba(6, 182, 212, 0.4);
-            background: #1e293b;
+            box-shadow: 0 10px 40px -10px rgba(107, 140, 66, 0.4);
+            background: #162e1a; /* Aktif kart rengi */
         }
 
         .expandable-card:hover::after, .expandable-card.active::after { opacity: 0; }
@@ -353,10 +399,9 @@
         .expandable-card:hover .card-icon, .expandable-card.active .card-icon {
             color: var(--accent-cyan);
             opacity: 1;
-            transform: rotate(45deg); /* Hafif bir animasyon */
+            transform: rotate(45deg);
         }
 
-        /* Detaylar başlangıçta gizli */
         .card-details {
             opacity: 0;
             transform: translateY(20px);
@@ -371,21 +416,18 @@
             transform: translateY(0);
         }
 
-        /* Projects Grid (Projeler yan yana) */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
         
-        /* Experience List (Deneyimler alt alta) */
         .experience-list {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
-        /* Linkler ve Tagler */
         .project-link {
             display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; margin-right: 15px;
             color: var(--accent-cyan); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.3s;
@@ -394,8 +436,8 @@
 
         .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
         .tag {
-            font-size: 0.75rem; background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan);
-            padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(6, 182, 212, 0.2);
+            font-size: 0.75rem; background: rgba(214, 205, 136, 0.1); color: var(--accent-cyan);
+            padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(214, 205, 136, 0.2);
         }
 
         /* --- SKILLS --- */
@@ -406,14 +448,14 @@
             gap: 10px; font-weight: 500; transition: all 0.3s;
         }
         .skill-badge:hover {
-            border-color: var(--accent-purple); box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+            border-color: var(--accent-purple); box-shadow: 0 0 15px rgba(107, 140, 66, 0.2);
         }
         .skill-badge i { color: var(--accent-cyan); }
 
         /* --- FOOTER --- */
         footer {
             text-align: center; padding: 40px; color: var(--text-secondary); font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; background: rgba(15, 23, 42, 0.8);
+            border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; background: rgba(11, 26, 14, 0.8);
         }
         .quote { font-style: italic; color: var(--accent-purple); margin-bottom: 10px; display: block; }
 
@@ -429,9 +471,15 @@
 <body>
 
     <div id="intro-overlay">
-        <div class="terminal-container">
-            <span id="terminal-text"></span><div class="cursor"></div>
+        <div class="builder-scene">
+            <i class="fas fa-brain brain-icon" id="brain-anim"></i>
+            
+            <div class="cute-man">
+                <div class="man-head"></div>
+                <div class="man-body"></div>
+            </div>
         </div>
+        <div id="intro-text" class="intro-text">Building Neural Architecture...</div>
     </div>
 
     <canvas id="neuroCanvas"></canvas>
@@ -740,13 +788,11 @@
 
     <script>
         // --- MOBILE/TABLET INTERACTION FIX ---
-        // Telefon ve tabletlerde tıklama ile açılıp kapanmayı sağlayan kod
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.expandable-card');
             
             cards.forEach(card => {
                 card.addEventListener('click', () => {
-                    // Tıklanan karta 'active' sınıfını ekle/çıkar
                     card.classList.toggle('active');
                 });
             });
@@ -767,36 +813,42 @@
             if(clickedBtn) clickedBtn.classList.add("active");
         }
 
-        // --- INTRO TYPEWRITER ANIMATION ---
-        const terminalText = document.getElementById('terminal-text');
+        // --- YENİ INTRO ANIMATION: ADAM VE BEYİN ---
         const overlay = document.getElementById('intro-overlay');
+        const brain = document.getElementById('brain-anim');
+        const introText = document.getElementById('intro-text');
         
-        const lines = [
-            "while(thinking) {",
-            "    evolve();",
-            "}",
-            "> I am Volkan",
-            "> I am Computer Engineer"
-        ];
-        
-        async function typeWriter() {
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i];
-                for (let j = 0; j < line.length; j++) {
-                    terminalText.innerHTML += line[j];
-                    await new Promise(r => setTimeout(r, 50));
-                }
-                terminalText.innerHTML += "<br>";
-                await new Promise(r => setTimeout(r, 200));
+        async function runBuilderAnimation() {
+            // Adım 1: Adam hareket ederken beyin büyüyor
+            await new Promise(r => setTimeout(r, 800));
+            brain.classList.add('step-1');
+            
+            await new Promise(r => setTimeout(r, 1000));
+            brain.classList.add('step-2');
+            
+            await new Promise(r => setTimeout(r, 1000));
+            brain.classList.add('step-3');
+            
+            // Adım 2: Metin değişimi
+            await new Promise(r => setTimeout(r, 600));
+            introText.innerHTML = ""; // Temizle
+            
+            const finalMsg = "Ready to think.";
+            introText.classList.add('ready-text');
+            
+            for (let j = 0; j < finalMsg.length; j++) {
+                introText.innerHTML += finalMsg[j];
+                await new Promise(r => setTimeout(r, 50));
             }
 
+            // Adım 3: Kapanış
             await new Promise(r => setTimeout(r, 1000));
             overlay.classList.add('hide-intro');
         }
         
-        window.onload = typeWriter;
+        window.onload = runBuilderAnimation;
 
-        // --- NEURO CANVAS LOGIC ---
+        // --- NEURO CANVAS LOGIC (Renkler Güncellendi) ---
         const canvas = document.getElementById('neuroCanvas');
         const ctx = canvas.getContext('2d');
         
@@ -854,7 +906,8 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = '#06b6d4';
+                // Particle Rengi: Haki/Krem (Eski Cyan) -> #d6cd88
+                ctx.fillStyle = '#d6cd88';
                 ctx.fill();
             }
         }
@@ -878,7 +931,8 @@
                     if (distance < connectionDistance) {
                         ctx.beginPath();
                         let opacity = 1 - (distance / connectionDistance);
-                        ctx.strokeStyle = 'rgba(139, 92, 246, ' + opacity * 0.4 + ')';
+                        // Bağlantı Rengi: Zeytin Yeşili (Eski Mor) -> #6b8c42
+                        ctx.strokeStyle = 'rgba(107, 140, 66, ' + opacity * 0.4 + ')';
                         ctx.lineWidth = 1;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
