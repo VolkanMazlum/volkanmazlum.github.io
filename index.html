@@ -6,28 +6,20 @@
     <title>Volkan Mazlum | NeuroAI Researcher</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        
+        /* --- RENK PALETİ (KOYU YEŞİL / HAKİ / KREM) --- */
         :root {
             --bg-color: #0b1a0e;        /* Çok Koyu Orman Yeşili */
             --card-bg: rgba(28, 46, 30, 0.9); /* Koyu Zeytin Yeşili */
             --text-primary: #f0f2dd;    /* Krem / Yumurta Kabuğu */
-            --text-secondary: #c2c5aa;  /* Soluk Haki / Gri-Yeşil */
-            --accent-cyan: #d6cd88;     /* Haki / Altın Sarısı */
-            --accent-purple: #6b8c42;   /* Canlı Zeytin Yeşili  */
+            --text-secondary: #c2c5aa;  /* Soluk Haki */
+            --accent-cyan: #d6cd88;     /* Altın Haki  */
+            --accent-purple: #6b8c42;   /* Canlı Zeytin  */
             --accent-gradient: linear-gradient(135deg, #d6cd88 0%, #6b8c42 100%);
             --nav-bg: rgba(11, 26, 14, 0.95);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
@@ -38,236 +30,158 @@
 
         /* --- INTRO ANIMASYONU --- */
         #intro-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: #050f06; /* Simsiyah-Yeşil */
             z-index: 99999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
             transition: opacity 1s ease-out, visibility 1s;
         }
 
         .builder-scene {
             position: relative;
-            width: 200px;
-            height: 150px;
+            width: 300px;
+            height: 250px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
         }
 
-        /* Beyin İkonu */
+        /* Beyin İkonu (Sonradan oluşacak) */
         .brain-icon {
-            font-size: 4rem;
+            position: absolute;
+            font-size: 5rem;
             color: var(--accent-purple);
-            opacity: 0.2;
-            transform: scale(0.5);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: drop-shadow(0 0 10px rgba(107, 140, 66, 0.5));
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s ease;
+            filter: drop-shadow(0 0 15px rgba(107, 140, 66, 0.6));
+            z-index: 1;
         }
+        .brain-icon.finished { opacity: 1; transform: scale(1); }
 
-        .brain-icon.step-1 { opacity: 0.5; transform: scale(0.7); color: #8fa860; }
-        .brain-icon.step-2 { opacity: 0.8; transform: scale(0.9); color: #b3bd70; }
-        .brain-icon.step-3 { opacity: 1; transform: scale(1.1); color: var(--accent-cyan); filter: drop-shadow(0 0 20px var(--accent-cyan)); }
+        /* Rastgele Nöron Noktaları */
+        .neuron-dot {
+            position: absolute;
+            width: 6px; height: 6px;
+            background-color: var(--accent-cyan);
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 5px var(--accent-cyan);
+            animation: popIn 0.3s forwards;
+        }
+        @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 0.8; } }
 
-        
+        /* Küçük Tatlı Adam */
         .cute-man {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 60px;
-            animation: buildMove 2s infinite ease-in-out;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px; height: 60px;
+            z-index: 10;
+            transition: transform 0.2s;
         }
 
         .man-head {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             background: var(--text-primary);
             border-radius: 50%;
             margin: 0 auto;
-            position: relative;
         }
         
         .man-body {
-            width: 24px;
-            height: 30px;
+            width: 24px; height: 30px;
             background: var(--accent-cyan);
             border-radius: 10px 10px 0 0;
             margin: -2px auto 0;
         }
 
-        @keyframes buildMove {
-            0% { transform: translateX(0) translateY(0); }
-            25% { transform: translateX(40px) translateY(-10px); } /* Zıpla ve sağa git */
-            50% { transform: translateX(80px) translateY(0); }
-            75% { transform: translateX(40px) translateY(-10px); } /* Zıpla ve sola dön */
-            100% { transform: translateX(0) translateY(0); }
-        }
-
-        .intro-text {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-top: 10px;
-            min-height: 1.5em;
-        }
-
-        .ready-text {
-            color: var(--accent-cyan);
+        /* Konuşma Balonu */
+        .speech-bubble {
+            position: absolute;
+            top: -70px; /* Adamın üstünde */
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: var(--text-primary);
+            color: #0b1a0e;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 0.85rem;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(214, 205, 136, 0.5);
-        }
-
-        .hide-intro {
+            white-space: nowrap;
+            text-align: center;
             opacity: 0;
-            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 20;
+        }
+        
+        .speech-bubble::after {
+            content: ''; position: absolute; bottom: -6px; left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px 6px 0; border-style: solid;
+            border-color: var(--text-primary) transparent transparent transparent;
         }
 
-        /* --- NEURO AI ARKA PLAN (CANVAS) --- */
+        .speech-bubble.show { transform: translateX(-50%) scale(1); opacity: 1; }
+
+        .intro-text-container {
+            height: 30px; margin-top: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--accent-cyan);
+        }
+
+        .hide-intro { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        /* --- BACKGROUND & SECTIONS (Aynı Kalıyor) --- */
         #neuroCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            /* Yeşil tonlu gradient arka plan */
             background: radial-gradient(circle at center, #162e1a 0%, #0b1a0e 100%);
             opacity: 0.6;
         }
 
-        /* --- SCROLLBAR --- */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple)); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
 
-        /* --- NAVİGASYON --- */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: var(--nav-bg);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(214, 205, 136, 0.2); /* Haki sınır */
+            position: fixed; top: 0; width: 100%; background: var(--nav-bg);
+            backdrop-filter: blur(10px); z-index: 1000;
+            border-bottom: 1px solid rgba(214, 205, 136, 0.2);
         }
 
         .nav-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
+            max-width: 1100px; margin: 0 auto; display: flex;
+            justify-content: space-between; align-items: center; padding: 15px 20px;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(107, 140, 66, 0.5);
+            font-size: 1.5rem; font-weight: bold; background: var(--accent-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 25px;
-        }
-
-        .nav-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.3s;
-            position: relative;
-        }
-
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { color: var(--text-primary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s; position: relative; }
         .nav-links a:hover { color: var(--accent-cyan); }
-        .nav-links a::after {
-            content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0;
-            background-color: var(--accent-cyan); transition: width 0.3s;
-        }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: var(--accent-cyan); transition: width 0.3s; }
         .nav-links a:hover::after { width: 100%; }
 
-        /* --- SECTIONS --- */
-        section {
-            padding: 80px 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        section { padding: 80px 20px; max-width: 1000px; margin: 0 auto; }
+        h2 { font-size: 2rem; margin-bottom: 40px; position: relative; display: inline-block; }
+        h2::after { content: ''; display: block; width: 60%; height: 4px; background: var(--accent-gradient); margin-top: 5px; border-radius: 2px; }
 
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 40px;
-            position: relative;
-            display: inline-block;
-        }
-
-        h2::after {
-            content: ''; display: block; width: 60%; height: 4px;
-            background: var(--accent-gradient); margin-top: 5px;
-            border-radius: 2px; box-shadow: 0 0 10px rgba(107, 140, 66, 0.5);
-        }
-
-        /* --- HERO --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding-top: 60px;
-            position: relative;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 5px rgba(214, 205, 136, 0.3));
-        }
-
-        .hero-titles {
-            font-size: 1.2rem;
-            color: var(--accent-cyan);
-            margin-bottom: 25px;
-            font-weight: 500;
-            letter-spacing: 1px;
-        }
-
-        .hero p {
-            max-width: 600px;
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-        }
-
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 60px; position: relative; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 15px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-titles { font-size: 1.2rem; color: var(--accent-cyan); margin-bottom: 25px; font-weight: 500; letter-spacing: 1px; }
+        .hero p { max-width: 600px; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        
         .hero-side-img {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 280px;
-            height: auto;
-            border-radius: 20px;
-            border: 2px solid var(--accent-cyan);
-            box-shadow: 0 0 20px rgba(107, 140, 66, 0.3);
-            z-index: 10;
-            object-fit: cover;
-            transition: transform 0.3s ease;
+            position: absolute; top: 50%; transform: translateY(-50%); width: 280px; height: auto;
+            border-radius: 20px; border: 2px solid var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(107, 140, 66, 0.3); z-index: 10; object-fit: cover; transition: transform 0.3s ease;
         }
         .hero-side-img:hover { transform: translateY(-50%) scale(1.05); }
         .img-left { left: 5%; }
@@ -280,206 +194,71 @@
             margin: 0 10px; border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(5px); transition: all 0.3s;
         }
-        .social-btn:hover {
-            border-color: var(--accent-cyan); transform: translateY(-3px);
-            box-shadow: 0 0 15px rgba(214, 205, 136, 0.3); background: rgba(107, 140, 66, 0.2);
-        }
+        .social-btn:hover { border-color: var(--accent-cyan); transform: translateY(-3px); box-shadow: 0 0 15px rgba(214, 205, 136, 0.3); background: rgba(107, 140, 66, 0.2); }
 
-        /* --- ABOUT TABS --- */
-        .about-tabs {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            justify-content: center;
-        }
+        .about-tabs { display: flex; gap: 20px; margin-bottom: 20px; justify-content: center; }
+        .tab-btn { background: transparent; border: 1px solid var(--accent-cyan); color: var(--text-secondary); padding: 10px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 1rem; }
+        .tab-btn.active, .tab-btn:hover { background: var(--accent-cyan); color: #0b1a0e; font-weight: bold; box-shadow: 0 0 15px rgba(214, 205, 136, 0.4); }
 
-        .tab-btn {
-            background: transparent;
-            border: 1px solid var(--accent-cyan);
-            color: var(--text-secondary);
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 1rem;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: var(--accent-cyan);
-            color: #0b1a0e;
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(214, 205, 136, 0.4);
-        }
-
-        .about-content {
-            display: none;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
-            border-left: 5px solid var(--accent-purple);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.05);
-            animation: fadeIn 0.5s ease;
-        }
-
+        .about-content { display: none; background: var(--card-bg); padding: 30px; border-radius: 15px; border-left: 5px solid var(--accent-purple); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.05); animation: fadeIn 0.5s ease; }
         .about-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .highlight-text strong { color: var(--accent-cyan); }
 
-        /* --- ORTAK KART TASARIMI --- */
         .expandable-card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            cursor: pointer;
-            height: 90px;
-            margin-bottom: 20px;
-            -webkit-tap-highlight-color: transparent;
+            background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s; position: relative; overflow: hidden; display: flex; flex-direction: column;
+            cursor: pointer; height: 90px; margin-bottom: 20px; -webkit-tap-highlight-color: transparent;
         }
-
-        .expandable-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 30px;
-            background: linear-gradient(to top, var(--card-bg), transparent);
-            transition: 0.3s;
-        }
-
-        .expandable-card:hover, .expandable-card.active {
-            height: auto;
-            min-height: 200px;
-            transform: scale(1.03);
-            z-index: 10;
-            border-color: var(--accent-cyan);
-            box-shadow: 0 10px 40px -10px rgba(107, 140, 66, 0.4);
-            background: #162e1a; /* Aktif kart rengi */
-        }
-
+        .expandable-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 30px; background: linear-gradient(to top, var(--card-bg), transparent); transition: 0.3s; }
+        .expandable-card:hover, .expandable-card.active { height: auto; min-height: 200px; transform: scale(1.03); z-index: 10; border-color: var(--accent-cyan); box-shadow: 0 10px 40px -10px rgba(107, 140, 66, 0.4); background: #162e1a; }
         .expandable-card:hover::after, .expandable-card.active::after { opacity: 0; }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            margin-bottom: 5px;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            font-weight: bold;
-        }
         
-        .card-subtitle {
-            color: var(--accent-cyan);
-            font-size: 0.95rem;
-            font-weight: 500;
-            display: block;
-            margin-bottom: 10px;
-        }
+        .card-header { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 5px; }
+        .card-title { font-size: 1.2rem; color: var(--text-primary); font-weight: bold; }
+        .card-subtitle { color: var(--accent-cyan); font-size: 0.95rem; font-weight: 500; display: block; margin-bottom: 10px; }
+        .card-icon { font-size: 0.9rem; color: var(--text-secondary); opacity: 0.5; transition: 0.3s; }
+        .expandable-card:hover .card-icon, .expandable-card.active .card-icon { color: var(--accent-cyan); opacity: 1; transform: rotate(45deg); }
+        .card-details { opacity: 0; transform: translateY(20px); transition: all 0.4s ease; margin-top: 5px; color: var(--text-secondary); font-size: 0.95rem; }
+        .expandable-card:hover .card-details, .expandable-card.active .card-details { opacity: 1; transform: translateY(0); }
 
-        .card-icon {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            opacity: 0.5;
-            transition: 0.3s;
-        }
-
-        .expandable-card:hover .card-icon, .expandable-card.active .card-icon {
-            color: var(--accent-cyan);
-            opacity: 1;
-            transform: rotate(45deg);
-        }
-
-        .card-details {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.4s ease;
-            margin-top: 5px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .expandable-card:hover .card-details, .expandable-card.active .card-details {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-        
-        .experience-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .project-link {
-            display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; margin-right: 15px;
-            color: var(--accent-cyan); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.3s;
-        }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .experience-list { display: flex; flex-direction: column; gap: 15px; }
+        .project-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; margin-right: 15px; color: var(--accent-cyan); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.3s; }
         .project-link:hover { color: var(--text-primary); text-decoration: underline; }
 
         .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
-        .tag {
-            font-size: 0.75rem; background: rgba(214, 205, 136, 0.1); color: var(--accent-cyan);
-            padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(214, 205, 136, 0.2);
-        }
+        .tag { font-size: 0.75rem; background: rgba(214, 205, 136, 0.1); color: var(--accent-cyan); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(214, 205, 136, 0.2); }
 
-        /* --- SKILLS --- */
         .skills-container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
-        .skill-badge {
-            background: var(--card-bg); padding: 10px 20px; border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center;
-            gap: 10px; font-weight: 500; transition: all 0.3s;
-        }
-        .skill-badge:hover {
-            border-color: var(--accent-purple); box-shadow: 0 0 15px rgba(107, 140, 66, 0.2);
-        }
+        .skill-badge { background: var(--card-bg); padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 10px; font-weight: 500; transition: all 0.3s; }
+        .skill-badge:hover { border-color: var(--accent-purple); box-shadow: 0 0 15px rgba(107, 140, 66, 0.2); }
         .skill-badge i { color: var(--accent-cyan); }
 
-        /* --- FOOTER --- */
-        footer {
-            text-align: center; padding: 40px; color: var(--text-secondary); font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; background: rgba(11, 26, 14, 0.8);
-        }
+        footer { text-align: center; padding: 40px; color: var(--text-secondary); font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; background: rgba(11, 26, 14, 0.8); }
         .quote { font-style: italic; color: var(--accent-purple); margin-bottom: 10px; display: block; }
 
-        /* MOBİL UYUM */
         @media (max-width: 1200px) { .hero-side-img { display: none; } }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero h1 { font-size: 2.5rem; }
-            section { padding: 40px 20px; }
-        }
+        @media (max-width: 768px) { .nav-links { display: none; } .hero h1 { font-size: 2.5rem; } section { padding: 40px 20px; } }
     </style>
 </head>
 <body>
 
     <div id="intro-overlay">
         <div class="builder-scene">
-            <i class="fas fa-brain brain-icon" id="brain-anim"></i>
+            <i class="fas fa-brain brain-icon" id="brain-icon"></i>
             
-            <div class="cute-man">
+            <div id="neuron-container"></div>
+
+            <div class="cute-man" id="builder-man">
+                <div class="speech-bubble" id="speech-bubble">
+                    Hi! I'm Volkan,<br>Computer Engineer.
+                </div>
                 <div class="man-head"></div>
                 <div class="man-body"></div>
             </div>
         </div>
-        <div id="intro-text" class="intro-text">Building Neural Architecture...</div>
+        <div class="intro-text-container" id="intro-text"></div>
     </div>
 
     <canvas id="neuroCanvas"></canvas>
@@ -801,54 +580,87 @@
         // --- ABOUT ME TABS LOGIC ---
         function openTab(tabName) {
             const contents = document.getElementsByClassName("about-content");
-            for (let i = 0; i < contents.length; i++) {
-                contents[i].classList.remove("active");
-            }
+            for (let i = 0; i < contents.length; i++) { contents[i].classList.remove("active"); }
             const btns = document.getElementsByClassName("tab-btn");
-            for (let i = 0; i < btns.length; i++) {
-                btns[i].classList.remove("active");
-            }
+            for (let i = 0; i < btns.length; i++) { btns[i].classList.remove("active"); }
             document.getElementById(tabName).classList.add("active");
             const clickedBtn = Array.from(btns).find(btn => btn.getAttribute('onclick').includes(tabName));
             if(clickedBtn) clickedBtn.classList.add("active");
         }
 
-        // --- YENİ INTRO ANIMATION: ADAM VE BEYİN ---
+        // --- GELİŞMİŞ INTRO ANIMASYONU ---
         const overlay = document.getElementById('intro-overlay');
-        const brain = document.getElementById('brain-anim');
+        const man = document.getElementById('builder-man');
+        const brainIcon = document.getElementById('brain-icon');
+        const neuronContainer = document.getElementById('neuron-container');
+        const speechBubble = document.getElementById('speech-bubble');
         const introText = document.getElementById('intro-text');
-        
-        async function runBuilderAnimation() {
-            // Adım 1: Adam hareket ederken beyin büyüyor
-            await new Promise(r => setTimeout(r, 800));
-            brain.classList.add('step-1');
+
+        function createNeuron(x, y) {
+            const dot = document.createElement('div');
+            dot.classList.add('neuron-dot');
+            // Rastgele hafif sapma ile yerleştir
+            const offsetX = (Math.random() - 0.5) * 40;
+            const offsetY = (Math.random() - 0.5) * 30;
+            dot.style.left = (x + offsetX) + 'px';
+            dot.style.top = (y + offsetY) + 'px';
+            neuronContainer.appendChild(dot);
+        }
+
+        async function runConstructionAnimation() {
+            // Başlangıç beklemesi
+            await new Promise(r => setTimeout(r, 500));
+
+            // Adamın Hareket Döngüsü (Sağa sola koşup nöron bırakma)
+            const moves = [
+                { x: -60, t: 400 }, { x: 60, t: 400 }, 
+                { x: -40, t: 300 }, { x: 40, t: 300 },
+                { x: 0, t: 300 }
+            ];
+
+            const centerX = 150; // builder-scene genişliğinin yarısı
+            const centerY = 125; // builder-scene yüksekliğinin yarısı
+
+            for (let move of moves) {
+                // Adamı hareket ettir
+                man.style.transform = `translateX(calc(-50% + ${move.x}px))`;
+                
+                // Hareket süresince nöron üret
+                let steps = 5;
+                for(let i=0; i<steps; i++) {
+                    createNeuron(centerX + move.x * (i/steps), centerY + (Math.random()*40 - 20));
+                    await new Promise(r => setTimeout(r, move.t / steps));
+                }
+            }
+
+            // Beyin Oluşumu (Nöronlar birleşiyor metaforu)
+            brainIcon.classList.add('finished');
             
-            await new Promise(r => setTimeout(r, 1000));
-            brain.classList.add('step-2');
-            
-            await new Promise(r => setTimeout(r, 1000));
-            brain.classList.add('step-3');
-            
-            // Adım 2: Metin değişimi
+            // Konuşma Balonu Çıkar
             await new Promise(r => setTimeout(r, 600));
-            introText.innerHTML = ""; // Temizle
+            speechBubble.classList.add('show');
+
+            // Yazının okunması için bekle
+            await new Promise(r => setTimeout(r, 2000));
             
+            // Konuşma balonu gizle ve son mesaja geç
+            speechBubble.classList.remove('show');
+            await new Promise(r => setTimeout(r, 500));
+
             const finalMsg = "Ready to think.";
-            introText.classList.add('ready-text');
-            
-            for (let j = 0; j < finalMsg.length; j++) {
-                introText.innerHTML += finalMsg[j];
+            for (let char of finalMsg) {
+                introText.innerHTML += char;
                 await new Promise(r => setTimeout(r, 50));
             }
 
-            // Adım 3: Kapanış
-            await new Promise(r => setTimeout(r, 1000));
+            // Kapanış
+            await new Promise(r => setTimeout(r, 800));
             overlay.classList.add('hide-intro');
         }
-        
-        window.onload = runBuilderAnimation;
 
-        // --- NEURO CANVAS LOGIC (Renkler Güncellendi) ---
+        window.onload = runConstructionAnimation;
+
+        // --- NEURO CANVAS LOGIC ---
         const canvas = document.getElementById('neuroCanvas');
         const ctx = canvas.getContext('2d');
         
@@ -879,73 +691,45 @@
                 this.vy = (Math.random() - 0.5) * 0.5;
                 this.size = Math.random() * 2 + 1;
             }
-
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
+                this.x += this.vx; this.y += this.vy;
                 if (this.x < 0 || this.x > width) this.vx *= -1;
                 if (this.y < 0 || this.y > height) this.vy *= -1;
-
                 if (mouse.x != null) {
-                    let dx = mouse.x - this.x;
-                    let dy = mouse.y - this.y;
+                    let dx = mouse.x - this.x; let dy = mouse.y - this.y;
                     let distance = Math.sqrt(dx*dx + dy*dy);
                     if (distance < mouseDistance) {
-                        const forceDirectionX = dx / distance;
-                        const forceDirectionY = dy / distance;
                         const force = (mouseDistance - distance) / mouseDistance;
-                        const directionX = forceDirectionX * force * 0.6;
-                        const directionY = forceDirectionY * force * 0.6;
-                        this.x -= directionX;
-                        this.y -= directionY;
+                        this.x -= (dx/distance) * force * 0.6;
+                        this.y -= (dy/distance) * force * 0.6;
                     }
                 }
             }
-
             draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                // Particle Rengi: Haki/Krem (Eski Cyan) -> #d6cd88
-                ctx.fillStyle = '#d6cd88';
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#d6cd88'; ctx.fill();
             }
         }
 
-        function init() {
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
+        function init() { particles = []; for (let i = 0; i < particleCount; i++) particles.push(new Particle()); }
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
             for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
+                particles[i].update(); particles[i].draw();
                 for (let j = i; j < particles.length; j++) {
-                    let dx = particles[i].x - particles[j].x;
-                    let dy = particles[i].y - particles[j].y;
+                    let dx = particles[i].x - particles[j].x; let dy = particles[i].y - particles[j].y;
                     let distance = Math.sqrt(dx*dx + dy*dy);
                     if (distance < connectionDistance) {
                         ctx.beginPath();
-                        let opacity = 1 - (distance / connectionDistance);
-                        // Bağlantı Rengi: Zeytin Yeşili (Eski Mor) -> #6b8c42
-                        ctx.strokeStyle = 'rgba(107, 140, 66, ' + opacity * 0.4 + ')';
-                        ctx.lineWidth = 1;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
+                        ctx.strokeStyle = 'rgba(107, 140, 66, ' + (1 - distance/connectionDistance) * 0.4 + ')';
+                        ctx.lineWidth = 1; ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
                     }
                 }
             }
             requestAnimationFrame(animate);
         }
-
-        init();
-        animate();
+        init(); animate();
     </script>
-
 </body>
 </html>
