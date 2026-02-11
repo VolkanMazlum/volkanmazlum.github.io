@@ -39,8 +39,8 @@
 
         .builder-scene {
             position: relative;
-            width: 320px;
-            height: 250px;
+            width: 360px; /* Beyin sığsın diye biraz genişlettim */
+            height: 280px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -49,7 +49,7 @@
         /* Nöron Noktaları */
         .neuron-dot {
             position: absolute;
-            width: 8px; height: 8px;
+            width: 7px; height: 7px;
             background-color: var(--accent-cyan);
             border-radius: 50%;
             opacity: 0;
@@ -57,7 +57,7 @@
             /* Hareket ederken yumuşak geçiş */
             transition: top 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), 
                         left 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55),
-                        background-color 0.5s;
+                        background-color 0.8s, box-shadow 0.8s;
             z-index: 5;
         }
 
@@ -73,8 +73,22 @@
         }
         .synapse-line {
             stroke: var(--accent-purple);
-            stroke-width: 1.5;
-            opacity: 0.4;
+            stroke-width: 1;
+            opacity: 0.3;
+            transition: all 0.8s;
+        }
+
+        /* --- IŞIKLAR YANSIN EFEKTİ --- */
+        .builder-scene.lights-on .neuron-dot {
+            background-color: var(--text-primary); /* Krem rengi, çok parlak */
+            box-shadow: 0 0 15px var(--text-primary), 0 0 30px var(--accent-cyan); /* Güçlü parlama */
+        }
+
+        .builder-scene.lights-on .synapse-line {
+            stroke: var(--text-primary); /* Hatlar da parlasın */
+            stroke-width: 2;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 8px var(--accent-cyan));
         }
 
         /* Küçük Tatlı Adam */
@@ -146,12 +160,13 @@
         .speech-bubble.show { transform: translateX(-50%) scale(1); opacity: 1; }
 
         .intro-text-container {
-            height: 30px; margin-top: 20px;
+            height: 30px; margin-top: 30px;
             font-family: 'Courier New', Courier, monospace;
             color: var(--accent-cyan);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(214, 205, 136, 0.3);
+            text-shadow: 0 0 10px rgba(214, 205, 136, 0.5);
+            letter-spacing: 2px;
         }
 
         .hide-intro { opacity: 0; visibility: hidden; pointer-events: none; }
@@ -267,9 +282,9 @@
 <body>
 
     <div id="intro-overlay">
-        <div class="builder-scene">
+        <div class="builder-scene" id="scene-container">
             
-            <svg id="synapse-svg" width="320" height="250"></svg>
+            <svg id="synapse-svg" width="360" height="280"></svg>
 
             <div id="neuron-container"></div>
 
@@ -301,9 +316,6 @@
     </nav>
 
     <header id="home" class="hero">
-        <img src="SOL_RESIM_DOSYASI.jpg" alt="Profile Left" class="hero-side-img img-left">
-        <img src="SAG_RESIM_DOSYASI.jpg" alt="Profile Right" class="hero-side-img img-right">
-
         <p style="margin-bottom: 0; color: var(--accent-cyan);">Hi there, I'm</p>
         <h1>Volkan Mazlum</h1>
         <div class="hero-titles">
@@ -614,113 +626,113 @@
             if(clickedBtn) clickedBtn.classList.add("active");
         }
 
-        // --- GELİŞMİŞ INTRO ANIMASYONU (Beyin Oluşumu ve Kutlama) ---
+        // --- GELİŞMİŞ INTRO ANIMASYONU (Detaylı Beyin ve Işık Efekti) ---
         const overlay = document.getElementById('intro-overlay');
         const man = document.getElementById('builder-man');
         const neuronContainer = document.getElementById('neuron-container');
         const speechBubble = document.getElementById('speech-bubble');
         const introText = document.getElementById('intro-text');
         const synapseSvg = document.getElementById('synapse-svg');
+        const sceneContainer = document.getElementById('scene-container');
 
-        let createdDots = []; // Oluşturulan DOM elementlerini tut
+        let createdDots = []; 
 
-        // Nöron (Nokta) Oluştur
         function createNeuron(x, y) {
             const dot = document.createElement('div');
             dot.classList.add('neuron-dot');
             dot.style.left = x + 'px';
             dot.style.top = y + 'px';
-            // Başlangıçta görünür kıl
-            dot.style.opacity = 0.8; 
+            dot.style.opacity = 0.6; 
             dot.style.transform = 'scale(1)';
-            
             neuronContainer.appendChild(dot);
             createdDots.push(dot);
         }
 
-        // Beyin Şekli Koordinatları (Basit bir beyin silüeti için yaklaşık noktalar)
-        // Center (160, 110) referans alınarak (Sahne ortası)
-        const brainShapeOffsets = [
-            {x:0, y:-50}, {x:30, y:-45}, {x:55, y:-25}, {x:65, y:0}, {x:60, y:25}, {x:40, y:45}, // Ön/Alt
-            {x:0, y:50}, {x:-40, y:40}, {x:-60, y:15}, {x:-65, y:-10}, {x:-50, y:-35}, {x:-25, y:-45}, // Arka/Üst
-            {x:10, y:-20}, {x:30, y:10}, {x:0, y:10}, {x:-30, y:0}, {x:-20, y:-20}, {x:20, y:25}, // İç kısımlar
-            {x:15, y:-35}, {x:40, y:-10}, {x:45, y:15}, {x:-45, y:-15}, {x:-35, y:25}, {x:0, y:30}, // Detaylar
+        // Daha gerçekçi bir beyin silüeti için detaylı koordinatlar (Center: ~180, 140)
+        const finalBrainOffsets = [
+            // Frontal Lobe (Ön)
+            {x: -60, y: -30}, {x: -80, y: -10}, {x: -85, y: 20}, {x: -75, y: 50},
+            // Parietal/Occipital (Üst ve Arka)
+            {x: -40, y: -60}, {x: 0, y: -75}, {x: 40, y: -70}, {x: 70, y: -50}, 
+            {x: 90, y: -20}, {x: 95, y: 10}, {x: 85, y: 40},
+            // Temporal/Cerebellum (Alt Kısım - Daha kıvrımlı)
+            {x: 60, y: 65}, {x: 30, y: 80}, {x: 0, y: 70}, {x: -20, y: 85}, {x: -50, y: 75},
+            // İç Dolgu Noktaları (Rastgele dağılım)
+            {x: -30, y: -20}, {x: -50, y: 10}, {x: -20, y: 35}, {x: 10, y: 0},
+            {x: 30, y: -30}, {x: 50, y: -10}, {x: 60, y: 25}, {x: 20, y: 45},
+            {x: -10, y: -40}, {x: 20, y: -50}, {x: 40, y: 10}, {x: 0, y: 30},
+            {x: -65, y: 30}, {x: 75, y: -30}, {x: -30, y: 60}, {x: 50, y: 60},
+            // Brainstem (Sap)
+            {x: -10, y: 95}, {x: 10, y: 100}, {x: 0, y: 110}
         ];
 
         async function organizeDotsIntoBrain() {
-            // Varolan noktaları beyin şekline taşı
-            const centerX = 160;
-            const centerY = 110;
-
-            // SVG çizgilerini hazırla ama gösterme
+            const centerX = 180;
+            const centerY = 140;
             let svgContent = '';
 
             for (let i = 0; i < createdDots.length; i++) {
                 const dot = createdDots[i];
-                // Döngüsel olarak hedef koordinat seç
-                const target = brainShapeOffsets[i % brainShapeOffsets.length];
+                // Koordinat listesinden sırayla al, biterse başa dön
+                const target = finalBrainOffsets[i % finalBrainOffsets.length];
                 
-                // Biraz rastgelelik ekle ki çok yapay durmasın
-                const noiseX = (Math.random() - 0.5) * 10;
-                const noiseY = (Math.random() - 0.5) * 10;
+                const noiseX = (Math.random() - 0.5) * 15; // Biraz daha rastgelelik
+                const noiseY = (Math.random() - 0.5) * 15;
 
                 const finalX = centerX + target.x + noiseX;
                 const finalY = centerY + target.y + noiseY;
 
                 dot.style.left = finalX + 'px';
                 dot.style.top = finalY + 'px';
-                dot.style.backgroundColor = '#d6cd88'; // Parlak renge dönüş
+                dot.style.opacity = 1;
 
                 // Komşu noktaya çizgi çek (Basit bağlantı mantığı)
                 if (i > 0) {
-                    const prevTarget = brainShapeOffsets[(i-1) % brainShapeOffsets.length];
+                    const prevTarget = finalBrainOffsets[(i-1) % finalBrainOffsets.length];
                     const prevX = centerX + prevTarget.x;
                     const prevY = centerY + prevTarget.y;
-                    
-                    svgContent += `<line x1="${finalX+4}" y1="${finalY+4}" x2="${prevX+4}" y2="${prevY+4}" class="synapse-line" />`;
+                    svgContent += `<line x1="${finalX+3}" y1="${finalY+3}" x2="${prevX+3}" y2="${prevY+3}" class="synapse-line" />`;
                 }
             }
-            
             synapseSvg.innerHTML = svgContent;
-            synapseSvg.style.opacity = 1; // Çizgileri göster
+            synapseSvg.style.opacity = 1;
         }
 
         async function runConstructionAnimation() {
-            // Başlangıç beklemesi
             await new Promise(r => setTimeout(r, 500));
 
-            // Adam sağa sola koşup nöron bıraksın
-            // Scene genişliği 320px. 
+            // Adam sağa sola koşup daha fazla nöron bıraksın (50+ nöron için)
             const moves = [
-                { x: 200, t: 400 }, { x: 80, t: 400 }, 
-                { x: 240, t: 300 }, { x: 100, t: 300 },
-                { x: 160, t: 300 } // Ortada dur
+                { x: 220, t: 350 }, { x: 100, t: 350 }, 
+                { x: 260, t: 300 }, { x: 60, t: 300 },
+                { x: 180, t: 300 } // Ortada dur
             ];
 
             for (let move of moves) {
-                // Adamı hareket ettir
                 man.style.left = move.x + 'px';
-                
-                // Hareket süresince nöron üret
-                let steps = 6;
+                // Nöron üretimini artırdım (her adımda 10 nöron)
+                let steps = 10;
                 for(let i=0; i<steps; i++) {
-                    // Adamın olduğu yere yakın rastgele bırak
-                    createNeuron(move.x + (Math.random()*20-10), 200 + (Math.random()*40-20));
+                    createNeuron(move.x + (Math.random()*30-15), 220 + (Math.random()*50-25));
                     await new Promise(r => setTimeout(r, move.t / steps));
                 }
             }
 
-            // Adam durdu, konuşma balonu çıkar
+            // Adam durdu, konuşma balonu
             speechBubble.classList.add('show');
             await new Promise(r => setTimeout(r, 2000));
             speechBubble.classList.remove('show');
             
-            // Nöronlar Beyni Oluşturuyor!
+            // Nöronlar Detaylı Beyni Oluşturuyor!
             await new Promise(r => setTimeout(r, 300));
             organizeDotsIntoBrain();
 
-            // Yazı Yazma
-            await new Promise(r => setTimeout(r, 1200)); // Nöronlar yerleşsin diye bekle
+            // Şekil oluştuktan sonra bekle ve IŞIKLARI YAK!
+            await new Promise(r => setTimeout(r, 1600));
+            sceneContainer.classList.add('lights-on');
+
+            // Yazı Yazma (Işıklar yandıktan sonra)
+            await new Promise(r => setTimeout(r, 800)); 
             const finalMsg = "Ready to think.";
             for (let char of finalMsg) {
                 introText.innerHTML += char;
@@ -731,7 +743,7 @@
             man.classList.add('celebrate');
             
             // Kapanış
-            await new Promise(r => setTimeout(r, 1500));
+            await new Promise(r => setTimeout(r, 1800));
             overlay.classList.add('hide-intro');
         }
 
@@ -781,13 +793,9 @@
                     let dy = mouse.y - this.y;
                     let distance = Math.sqrt(dx*dx + dy*dy);
                     if (distance < mouseDistance) {
-                        const forceDirectionX = dx / distance;
-                        const forceDirectionY = dy / distance;
                         const force = (mouseDistance - distance) / mouseDistance;
-                        const directionX = forceDirectionX * force * 0.6;
-                        const directionY = forceDirectionY * force * 0.6;
-                        this.x -= directionX;
-                        this.y -= directionY;
+                        this.x -= (dx/distance) * force * 0.6;
+                        this.y -= (dy/distance) * force * 0.6;
                     }
                 }
             }
@@ -795,6 +803,7 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                // Arka plan parçacık rengi: Haki (#d6cd88)
                 ctx.fillStyle = '#d6cd88';
                 ctx.fill();
             }
@@ -819,6 +828,7 @@
                     if (distance < connectionDistance) {
                         ctx.beginPath();
                         let opacity = 1 - (distance / connectionDistance);
+                        // Arka plan bağlantı rengi: Zeytin Yeşili (#6b8c42)
                         ctx.strokeStyle = 'rgba(107, 140, 66, ' + opacity * 0.4 + ')';
                         ctx.lineWidth = 1;
                         ctx.moveTo(particles[i].x, particles[i].y);
