@@ -41,10 +41,10 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #020617;
-            z-index: 9999;
+            width: 100vw;
+            height: 100vh;
+            background-color: #020617; /* Simsiyah */
+            z-index: 99999; /* En üstte */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -52,20 +52,22 @@
             transition: opacity 1s ease-out, visibility 1s;
         }
 
-        .terminal-text {
+        .terminal-container {
             font-family: 'Courier New', Courier, monospace;
-            font-size: 1.5rem;
+            font-size: 1.5rem; /* Büyük font */
             color: var(--accent-cyan);
-            margin-bottom: 10px;
-            opacity: 0; /* JS ile açılacak */
+            text-align: left;
+            min-width: 300px;
         }
-        
+
         .cursor {
             display: inline-block;
             width: 10px;
-            height: 20px;
+            height: 24px;
             background-color: var(--accent-purple);
             animation: blink 0.8s infinite;
+            vertical-align: middle;
+            margin-left: 5px;
         }
 
         @keyframes blink {
@@ -232,7 +234,7 @@
             box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.1);
         }
 
-        /* --- TABLI ABOUT ME YAPISI --- */
+        /* --- ABOUT TABS --- */
         .about-tabs {
             display: flex;
             gap: 20px;
@@ -258,7 +260,7 @@
         }
 
         .about-content {
-            display: none; /* JS ile açılacak */
+            display: none;
             background: var(--card-bg);
             padding: 30px;
             border-radius: 15px;
@@ -268,133 +270,125 @@
             animation: fadeIn 0.5s ease;
         }
 
-        .about-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        .about-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .highlight-text strong { color: var(--accent-cyan); }
 
-        /* --- TIMELINE --- */
-        .timeline { position: relative; margin-top: 20px; }
-        .timeline-item {
-            position: relative; padding-left: 30px; margin-bottom: 40px;
-            border-left: 2px solid rgba(255,255,255,0.1);
-        }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -6px; top: 5px; width: 10px; height: 10px;
-            background: var(--accent-cyan); border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-cyan); transition: all 0.3s;
-        }
-        .timeline-item:hover::before {
-            background: var(--accent-purple); box-shadow: 0 0 15px var(--accent-purple);
-            transform: scale(1.2);
-        }
-        .timeline-title { font-size: 1.2rem; color: var(--text-primary); font-weight: bold; }
-        .timeline-company { color: var(--accent-cyan); font-weight: 500; margin-bottom: 5px; display: block; }
-        .timeline-desc { color: var(--text-secondary); font-size: 0.95rem; }
-
-        /* --- INTERACTIVE PROJECT CARDS (Büyüyen) --- */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .project-card {
+        /* --- ORTAK KART TASARIMI (PROJELER ve DENEYİM İÇİN) --- */
+        /* Bu stil hem .project-card hem de .experience-card için geçerli olacak */
+        .expandable-card {
             background: var(--card-bg);
             padding: 25px;
             border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Elastik geçiş */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            
-            /* Başlangıçta detaysız görünüm için ayarlar */
-            height: 100px; /* Sadece başlık görünecek kadar kısa */
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             cursor: pointer;
+            
+            /* Başlangıç (Kapalı) Hali */
+            height: 90px; /* Sadece başlık sığacak kadar */
+            margin-bottom: 20px;
         }
 
-        .project-card::after {
-            /* Aşağıda fluluk efekti */
+        .expandable-card::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 40px;
+            height: 30px;
             background: linear-gradient(to top, var(--card-bg), transparent);
             transition: 0.3s;
         }
 
-        .project-card:hover {
+        .expandable-card:hover {
             height: auto; /* İçeriğe göre uza */
-            min-height: 250px; /* Minimum bir boy */
-            transform: scale(1.05);
+            min-height: 200px;
+            transform: scale(1.03);
             z-index: 10;
             border-color: var(--accent-cyan);
             box-shadow: 0 10px 40px -10px rgba(6, 182, 212, 0.4);
-            background: #1e293b; /* Daha opak arka plan */
+            background: #1e293b;
         }
 
-        .project-card:hover::after {
-            opacity: 0; /* Hover olunca fluluğu kaldır */
-        }
+        .expandable-card:hover::after { opacity: 0; }
 
-        .project-title {
-            font-size: 1.25rem;
-            margin-bottom: 10px;
-            color: var(--text-primary);
+        .card-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            font-weight: bold;
         }
         
-        .project-title i {
+        .card-subtitle {
+            color: var(--accent-cyan);
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .card-icon {
             font-size: 0.9rem;
             color: var(--text-secondary);
             opacity: 0.5;
             transition: 0.3s;
         }
-        
-        .project-card:hover .project-title i {
+
+        .expandable-card:hover .card-icon {
             color: var(--accent-cyan);
             opacity: 1;
+            transform: rotate(45deg); /* Hafif bir animasyon */
         }
 
-        /* Detaylar başlangıçta gizli veya silik */
-        .project-details-wrapper {
+        /* Detaylar başlangıçta gizli */
+        .card-details {
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.4s ease;
-            margin-top: 10px;
+            margin-top: 5px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
 
-        .project-card:hover .project-details-wrapper {
+        .expandable-card:hover .card-details {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .project-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+        /* Projects Grid (Projeler yan yana) */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        /* Experience List (Deneyimler alt alta) */
+        .experience-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
+        /* Linkler ve Tagler */
         .project-link {
             display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; margin-right: 15px;
             color: var(--accent-cyan); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.3s;
         }
         .project-link:hover { color: var(--text-primary); text-decoration: underline; }
 
-        .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
         .tag {
             font-size: 0.75rem; background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan);
             padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(6, 182, 212, 0.2);
@@ -425,17 +419,19 @@
             .nav-links { display: none; }
             .hero h1 { font-size: 2.5rem; }
             section { padding: 40px 20px; }
-            .project-card { height: auto; min-height: auto; } /* Mobilde hover zor olacağı için açık kalsın */
-            .project-details-wrapper { opacity: 1; transform: translateY(0); }
-            .project-card::after { display: none; }
+            /* Mobilde kartlar açık kalsın, hover zor */
+            .expandable-card { height: auto; min-height: auto; }
+            .card-details { opacity: 1; transform: translateY(0); }
+            .expandable-card::after { display: none; }
         }
     </style>
 </head>
 <body>
 
     <div id="intro-overlay">
-        <div id="typewriter" class="terminal-text"></div>
-        <div class="cursor"></div>
+        <div class="terminal-container">
+            <span id="terminal-text"></span><div class="cursor"></div>
+        </div>
     </div>
 
     <canvas id="neuroCanvas"></canvas>
@@ -491,9 +487,7 @@
         </div>
 
         <div id="education" class="about-content active highlight-text">
-            <p>
-                My academic foundation is built on a rigorous multidisciplinary approach.
-            </p>
+            <p>My academic foundation is built on a rigorous multidisciplinary approach.</p>
             <ul style="list-style: none; margin-top: 15px; line-height: 2;">
                 <li>🎓 <strong>M.Sc. Artificial Intelligence & ML</strong> - Politecnico di Milano</li>
                 <li>🎓 <strong>B.Sc. Computer Engineering</strong> - Cankaya University</li>
@@ -503,9 +497,7 @@
         </div>
 
         <div id="focus" class="about-content highlight-text">
-            <p>
-                My research stands at the intersection of biological intelligence and computational systems. I am working towards bridging the gap between how brains work and how machines learn.
-            </p>
+            <p>My research stands at the intersection of biological intelligence and computational systems. I am working towards bridging the gap between how brains work and how machines learn.</p>
             <ul style="list-style: none; margin-top: 10px;">
                 <li>🚀 <strong>Currently working on:</strong> Biologically inspired controllers, Generative AI, and Spiking Neural Networks (SNNs).</li>
                 <li>🧠 <strong>Focus Areas:</strong> Computational Neuroscience, Cognitive Architectures, NeuroAI.</li>
@@ -513,37 +505,40 @@
         </div>
 
         <div id="background" class="about-content highlight-text">
-            <p>
-                I specialize in <strong>Artificial Intelligence and Machine Learning</strong>. I aim to combine biological neural mechanisms and artificial neural networks into what we call <strong>NeuroAI</strong>.
-            </p>
-            <p style="margin-top: 10px;">
-                From analyzing mRNA expression data to simulating cerebellar control systems, my journey is defined by a curiosity to understand intelligence itself—whether biological or artificial.
-            </p>
+            <p>I specialize in <strong>Artificial Intelligence and Machine Learning</strong>. I aim to combine biological neural mechanisms and artificial neural networks into what we call <strong>NeuroAI</strong>.</p>
+            <p style="margin-top: 10px;">From analyzing mRNA expression data to simulating cerebellar control systems, my journey is defined by a curiosity to understand intelligence itself.</p>
         </div>
-
     </section>
 
     <section id="research">
         <h2>Research & Academic Experience</h2>
-        <div class="timeline">
+        <div class="experience-list">
              
-            <div class="timeline-item">
-                <div class="timeline-title">Junior Research Assistant</div>
-                <span class="timeline-company">Kyungpook National University (Remote)</span>
-                <p class="timeline-desc">Developed EMG-HandNet, a CNN-BiLSTM architecture for hand gesture classification using TensorFlow/Keras.
-                    <br>Achieved a classification accuracy of 94% by conducting a comparative analysis of pre-trained models.
-                    <br> Processed and augmented a dataset of 5,000+ signal samples.
-                </p>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Junior Research Assistant</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Kyungpook National University (Remote)</span>
+                <div class="card-details">
+                    <p>Developed EMG-HandNet, a CNN-BiLSTM architecture for hand gesture classification using TensorFlow/Keras.
+                    <br>Achieved a classification accuracy of 94% by conducting a comparative analysis of pre-trained models versus custom architectures.
+                    <br>Processed and augmented a dataset of 5,000+ signal samples to improve model robustness in real-time activity recognition.</p>
+                </div>
             </div>
 
-            <div class="timeline-item">
-                <div class="timeline-title">Volunteer Undergraduate Researcher</div>
-                <span class="timeline-company">Cankaya University</span>
-                <p class="timeline-desc">
-                    Worked on Bioinformatics and Healthcare Decision Support Systems under Prof. Hasan Ogul. 
-                    <br>Publication: <em>“miRcuit: A tool for integrating mRNA and miRNA expression data analysis”</em>.
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Volunteer Undergraduate Researcher</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Cankaya University</span>
+                <div class="card-details">
+                    <p>Worked on Bioinformatics and Healthcare Decision Support Systems under Prof. Hasan Ogul. 
+                    <br>Publication: <em>“miRcuit: A tool for integrating mRNA and miRNA expression data analysis to infer regulatory circuits”</em>.
                     <br>Served as a Student Teaching Assistant for Data Science and ANN courses.
-                </p>
+                    <br>Facilitated weekly laboratory sessions, guiding students through practical applications of machine learning algorithms.</p>
+                </div>
             </div>
 
         </div>
@@ -551,48 +546,65 @@
 
     <section id="experience">
         <h2>Professional Experience</h2>
-        <div class="timeline">
+        <div class="experience-list">
              
-            <div class="timeline-item">
-                <div class="timeline-title">Junior AI Engineer</div>
-                <span class="timeline-company">Breathe Happiness (Milan)</span>
-                <p class="timeline-desc">
-                    Engineered end-to-end ML pipelines and deployed custom NLP Chatbots utilizing fine-tuning and RAG systems.
-                    <br> Developed custom Chatbots reducing customer support tickets.
-                </p>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Junior AI Engineer</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Breathe Happiness (Milan)</span>
+                <div class="card-details">
+                    <p>Engineered end-to-end ML pipelines and deployed custom NLP Chatbots utilizing fine-tuning methods and the implementation of the RAG system.
+                    <br>Developed and deployed a custom Chatbot (NLP) using fine-tuned models, reducing customer support tickets.
+                    <br>Drafted technical sustainability reports and supporting software documentation.</p>
+                </div>
             </div>
 
-            <div class="timeline-item">
-                <div class="timeline-title">Candidate Software Engineer</div>
-                <span class="timeline-company">Turkish Aerospace (TUSAŞ)</span>
-                <p class="timeline-desc">
-                    Collaborated with a cross-functional team of 10 engineers to deploy agile solutions, resulting in improved efficiency.
-                </p>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Candidate Software Engineer</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Turkish Aerospace (TUSAŞ)</span>
+                <div class="card-details">
+                    <p>Collaborated with a cross-functional team of 10 engineers to deploy agile solutions, resulting in an improvement in operational efficiency.
+                    <br>Integrated emerging technologies into business processes to improve workflows.</p>
+                </div>
             </div>
 
-            <div class="timeline-item">
-                <div class="timeline-title">Microsoft Student Ambassador</div>
-                <span class="timeline-company">Microsoft</span>
-                <p class="timeline-desc">Obtained 5 Azure certifications (AI, Data, Security). Published "Greywater Usage in Hotels" project.</p>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Microsoft Student Ambassador</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Microsoft</span>
+                <div class="card-details">
+                    <p>Obtained 5 Azure certifications (AI, Data, Security). Published "Greywater Usage in Hotels" project using Power Apps.</p>
+                </div>
             </div>
 
-            <div class="timeline-item">
-                <div class="timeline-title">Volunteer Summer Intern</div>
-                <span class="timeline-company">TUBITAK Space Technologies Research Institute</span>
-                <p class="timeline-desc">
-                    Developed a tool in MATLAB that draws optical lenses based on unique input values.
-                </p>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Volunteer Summer Intern</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">TUBITAK Space Technologies Research Institute</span>
+                <div class="card-details">
+                    <p>Developed a tool in MATLAB that draws optical lenses based on unique input values.
+                    <br>Researched and documented formulas used in optical systems laboratories.</p>
+                </div>
             </div>
 
-            <div class="timeline-item">
-                <div class="timeline-title">Summer Intern</div>
-                <span class="timeline-company">STM</span>
-                <p class="timeline-desc">Worked on image transmission between drones and platforms using MAVlink protocol with C++.</p>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-title">Summer Intern</div>
-                <span class="timeline-company">TürkTelekom</span>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Summer Intern</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">STM</span>
+                <div class="card-details">
+                    <p>Worked on image transmission between drones and platforms using MAVlink protocol with C++.</p>
+                </div>
             </div>
 
         </div>
@@ -602,10 +614,13 @@
         <h2>Key Projects</h2>
         <div class="projects-grid">
              
-            <div class="project-card">
-                <h3 class="project-title">Near-NES Cerebellar Control <i class="fas fa-expand-alt"></i></h3>
-                <div class="project-details-wrapper">
-                    <p class="project-desc">Developed a biologically inspired controller simulating 10,000+ neuron interactions. Achieved 98% success in synaptic adaptation tests.</p>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <h3 class="card-title">Near-NES Cerebellar Control</h3>
+                    <i class="fas fa-expand-alt card-icon"></i>
+                </div>
+                <div class="card-details">
+                    <p>Developed a biologically inspired controller simulating 10,000+ neuron interactions. Achieved 98% success in synaptic adaptation tests.</p>
                     <div class="tech-tags">
                         <span class="tag">NESTML</span>
                         <span class="tag">Python</span>
@@ -623,10 +638,13 @@
                 </div>
             </div>
 
-            <div class="project-card">
-                <h3 class="project-title">EMG-HandNet <i class="fas fa-expand-alt"></i></h3>
-                <div class="project-details-wrapper">
-                    <p class="project-desc">Designed a CNN-BiLSTM architecture for hand gesture classification using electromyography (EMG) signals (94% accuracy).</p>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <h3 class="card-title">EMG-HandNet</h3>
+                    <i class="fas fa-expand-alt card-icon"></i>
+                </div>
+                <div class="card-details">
+                    <p>Designed a CNN-BiLSTM architecture for hand gesture classification using electromyography (EMG) signals (94% accuracy).</p>
                     <div class="tech-tags">
                         <span class="tag">TensorFlow</span>
                         <span class="tag">Signal Processing</span>
@@ -638,10 +656,13 @@
                 </div>
             </div>
              
-            <div class="project-card">
-                <h3 class="project-title">NLP Analysis & GenAI <i class="fas fa-expand-alt"></i></h3>
-                <div class="project-details-wrapper">
-                    <p class="project-desc">Analyzed dialogue characteristics, compared generation models (Flan-T5, DialoGPT) and implemented fine-tuning for metadata prediction.</p>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <h3 class="card-title">NLP Analysis & GenAI</h3>
+                    <i class="fas fa-expand-alt card-icon"></i>
+                </div>
+                <div class="card-details">
+                    <p>Analyzed dialogue characteristics, compared generation models (Flan-T5, DialoGPT) and implemented fine-tuning for metadata prediction.</p>
                     <div class="tech-tags">
                         <span class="tag">Python</span>
                         <span class="tag">NLP</span>
@@ -654,10 +675,13 @@
                 </div>
             </div>
 
-            <div class="project-card">
-                <h3 class="project-title">Drowsy Driver Detection <i class="fas fa-expand-alt"></i></h3>
-                <div class="project-details-wrapper">
-                    <p class="project-desc">Built a real-time web-based detection system using CNNs to identify driver fatigue.</p>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <h3 class="card-title">Drowsy Driver Detection</h3>
+                    <i class="fas fa-expand-alt card-icon"></i>
+                </div>
+                <div class="card-details">
+                    <p>Built a real-time web-based detection system using CNNs to identify driver fatigue.</p>
                     <div class="tech-tags">
                         <span class="tag">Python</span>
                         <span class="tag">CNN</span>
@@ -675,10 +699,13 @@
                 </div>
             </div>
 
-            <div class="project-card">
-                <h3 class="project-title">Bioinformatics Decision Support <i class="fas fa-expand-alt"></i></h3>
-                <div class="project-details-wrapper">
-                    <p class="project-desc">Integrated mRNA and miRNA expression data to infer regulatory circuits (miRcuit).</p>
+            <div class="expandable-card">
+                <div class="card-header">
+                    <h3 class="card-title">Bioinformatics Decision Support</h3>
+                    <i class="fas fa-expand-alt card-icon"></i>
+                </div>
+                <div class="card-details">
+                    <p>Integrated mRNA and miRNA expression data to infer regulatory circuits (miRcuit).</p>
                     <div class="tech-tags">
                         <span class="tag">ML Pipelines</span>
                         <span class="tag">Data Mining</span>
@@ -713,74 +740,52 @@
     <script>
         // --- ABOUT ME TABS LOGIC ---
         function openTab(tabName) {
-            // Tüm içerikleri gizle
             const contents = document.getElementsByClassName("about-content");
             for (let i = 0; i < contents.length; i++) {
                 contents[i].classList.remove("active");
             }
-            
-            // Tüm butonların aktifliğini kaldır
             const btns = document.getElementsByClassName("tab-btn");
             for (let i = 0; i < btns.length; i++) {
                 btns[i].classList.remove("active");
             }
-
-            // İstenen içeriği ve butonu aktif yap
             document.getElementById(tabName).classList.add("active");
-            
-            // Butonu bulup active class ekle (event.currentTarget kullanımı daha temiz olurdu ama basit tuttum)
             const clickedBtn = Array.from(btns).find(btn => btn.getAttribute('onclick').includes(tabName));
             if(clickedBtn) clickedBtn.classList.add("active");
         }
 
-        // --- INTRO TYPEWRITER ANIMATION ---
-        const textElement = document.getElementById('typewriter');
+        // --- INTRO TYPEWRITER ANIMATION (FIXED) ---
+        const terminalText = document.getElementById('terminal-text');
         const overlay = document.getElementById('intro-overlay');
         
-        // Satır satır yazılacak metinler
+        // Metinler
         const lines = [
             "while(thinking) {",
             "    evolve();",
             "}",
-            ">> Hello, I am Volkan",
-            ">> Computer Engineer & NeuroAI Researcher"
+            "> I am Volkan",
+            "> I am Computer Engineer"
         ];
         
-        let lineIndex = 0;
-        let charIndex = 0;
-        
-        function typeWriter() {
-            if (lineIndex < lines.length) {
-                const currentLine = lines[lineIndex];
-                
-                if (charIndex < currentLine.length) {
-                    // Mevcut satırı yazmaya devam et
-                    // Satır sonlarına <br> ekleyerek alt satıra geçişi sağlıyoruz
-                    let currentContent = "";
-                    for(let i=0; i<lineIndex; i++) {
-                        currentContent += lines[i] + "<br>";
-                    }
-                    currentContent += currentLine.substring(0, charIndex + 1);
-                    textElement.innerHTML = currentContent;
-                    charIndex++;
-                    setTimeout(typeWriter, 50); // Yazma hızı
-                } else {
-                    // Satır bitti, sonraki satıra geç
-                    lineIndex++;
-                    charIndex = 0;
-                    setTimeout(typeWriter, 300); // Satır arası bekleme
+        async function typeWriter() {
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                // Her satırı yaz
+                for (let j = 0; j < line.length; j++) {
+                    terminalText.innerHTML += line[j];
+                    await new Promise(r => setTimeout(r, 50)); // Yazma hızı
                 }
-            } else {
-                // Yazma bitti, biraz bekle ve overlay'i kaldır
-                setTimeout(() => {
-                    overlay.classList.add('hide-intro');
-                }, 1000);
+                // Satır sonu <br> ekle
+                terminalText.innerHTML += "<br>";
+                await new Promise(r => setTimeout(r, 200)); // Satır arası bekleme
             }
+
+            // Animasyon bitince bekle ve overlay'i kaldır
+            await new Promise(r => setTimeout(r, 1000));
+            overlay.classList.add('hide-intro');
         }
         
-        // Sayfa yüklendiğinde başlat
-        window.addEventListener('load', typeWriter);
-
+        // Sayfa yüklenince başlat
+        window.onload = typeWriter;
 
         // --- NEURO CANVAS LOGIC ---
         const canvas = document.getElementById('neuroCanvas');
@@ -788,7 +793,6 @@
         
         let width, height;
         let particles = [];
-        
         const particleCount = 60; 
         const connectionDistance = 150; 
         const mouseDistance = 200; 
@@ -855,16 +859,13 @@
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
                 particles[i].draw();
-                
                 for (let j = i; j < particles.length; j++) {
                     let dx = particles[i].x - particles[j].x;
                     let dy = particles[i].y - particles[j].y;
                     let distance = Math.sqrt(dx*dx + dy*dy);
-
                     if (distance < connectionDistance) {
                         ctx.beginPath();
                         let opacity = 1 - (distance / connectionDistance);
