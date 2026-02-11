@@ -8,14 +8,14 @@
     <style>
         /* --- RENK PALETİ VE TEMEL AYARLAR --- */
         :root {
-            --bg-color: #0f172a;        /* Derin Lacivert (Slate 900) */
-            --card-bg: #1e293b;         /* Daha açık lacivert (Slate 800) */
-            --text-primary: #f1f5f9;    /* Kırık Beyaz */
-            --text-secondary: #94a3b8;  /* Gri */
-            --accent-cyan: #06b6d4;     /* Canlı Cyan */
-            --accent-purple: #8b5cf6;   /* Mor */
+            --bg-color: #0f172a;        /* Derin Lacivert */
+            --card-bg: rgba(30, 41, 59, 0.85); /* Kartlar hafif şeffaf olsun ki arkadaki ağ görünsün */
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent-cyan: #06b6d4;     /* Neuro Cyan */
+            --accent-purple: #8b5cf6;   /* Synapse Purple */
             --accent-gradient: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
-            --nav-bg: rgba(15, 23, 42, 0.95);
+            --nav-bg: rgba(15, 23, 42, 0.9);
         }
 
         * {
@@ -25,7 +25,7 @@
         }
 
         html {
-            scroll-behavior: smooth; /* Yumuşak kaydırma */
+            scroll-behavior: smooth;
         }
 
         body {
@@ -33,6 +33,33 @@
             background-color: var(--bg-color);
             color: var(--text-primary);
             line-height: 1.6;
+            overflow-x: hidden; /* Yatay kaydırmayı engelle */
+        }
+
+        /* --- NEURO AI ARKA PLAN (CANVAS) --- */
+        #neuroCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* İçeriğin arkasında kalsın */
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+        }
+
+        /* --- ÖZEL SCROLLBAR (Data Stream Hissi) --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple)); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-cyan); 
         }
 
         /* --- NAVİGASYON --- */
@@ -43,7 +70,7 @@
             background: var(--nav-bg);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.2); /* Hafif cyan çizgi */
         }
 
         .nav-container {
@@ -61,6 +88,7 @@
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.5); /* Hafif neon parlaması */
         }
 
         .nav-links {
@@ -73,14 +101,30 @@
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s;
+            position: relative;
         }
 
         .nav-links a:hover {
             color: var(--accent-cyan);
         }
 
-        /* --- ANA BÖLÜMLER (SECTION) --- */
+        /* Hover efekti (alt çizgi) */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-cyan);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- ANA BÖLÜMLER --- */
         section {
             padding: 80px 20px;
             max-width: 1000px;
@@ -102,9 +146,10 @@
             background: var(--accent-gradient);
             margin-top: 5px;
             border-radius: 2px;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); /* Neon parlaması */
         }
 
-        /* --- HERO (GİRİŞ) --- */
+        /* --- HERO --- */
         .hero {
             height: 100vh;
             display: flex;
@@ -121,6 +166,8 @@
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            /* Hafif glitch efekti verilebilir ama sadelik için parlama ekleyelim */
+            filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.3));
         }
 
         .hero-titles {
@@ -128,6 +175,7 @@
             color: var(--accent-cyan);
             margin-bottom: 25px;
             font-weight: 500;
+            letter-spacing: 1px;
         }
 
         .hero p {
@@ -141,38 +189,39 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: var(--card-bg);
+            background: rgba(30, 41, 59, 0.6);
             color: var(--text-primary);
             padding: 12px 25px;
             border-radius: 30px;
             text-decoration: none;
             margin: 0 10px;
             border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
             transition: all 0.3s;
         }
 
         .social-btn:hover {
             border-color: var(--accent-cyan);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.2);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+            background: rgba(6, 182, 212, 0.1);
         }
 
         /* --- ABOUT --- */
         .about-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
             background: var(--card-bg);
             padding: 30px;
             border-radius: 15px;
             border-left: 5px solid var(--accent-purple);
+            backdrop-filter: blur(5px); /* Arka planı hafif buzlu göster */
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .highlight-text strong {
             color: var(--accent-cyan);
         }
 
-        /* --- DENEYİM (TIMELINE) --- */
+        /* --- TIMELINE --- */
         .timeline {
             position: relative;
             margin-top: 20px;
@@ -195,6 +244,13 @@
             background: var(--accent-cyan);
             border-radius: 50%;
             box-shadow: 0 0 10px var(--accent-cyan);
+            transition: all 0.3s;
+        }
+        
+        .timeline-item:hover::before {
+            background: var(--accent-purple);
+            box-shadow: 0 0 15px var(--accent-purple);
+            transform: scale(1.2);
         }
 
         .timeline-title {
@@ -215,7 +271,7 @@
             font-size: 0.95rem;
         }
 
-        /* --- PROJE KARTLARI --- */
+        /* --- PROJECT CARDS --- */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -227,16 +283,21 @@
             padding: 25px;
             border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.3s;
+            transition: all 0.3s;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Kart hover olunca kenarlar parlasın */
         .project-card:hover {
             transform: translateY(-5px);
             border-color: var(--accent-cyan);
+            box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.3);
         }
+
         .project-link {
             display: inline-flex;
             align-items: center;
@@ -278,6 +339,7 @@
             color: var(--accent-cyan);
             padding: 4px 10px;
             border-radius: 20px;
+            border: 1px solid rgba(6, 182, 212, 0.2);
         }
 
         /* --- SKILLS --- */
@@ -297,6 +359,12 @@
             align-items: center;
             gap: 10px;
             font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .skill-badge:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
         }
         
         .skill-badge i {
@@ -311,6 +379,7 @@
             font-size: 0.9rem;
             border-top: 1px solid rgba(255,255,255,0.1);
             margin-top: 50px;
+            background: rgba(15, 23, 42, 0.8);
         }
 
         .quote {
@@ -322,13 +391,15 @@
 
         /* MOBİL UYUM */
         @media (max-width: 768px) {
-            .nav-links { display: none; } /* Mobilde menüyü basitleştirdik */
+            .nav-links { display: none; }
             .hero h1 { font-size: 2.5rem; }
             section { padding: 40px 20px; }
         }
     </style>
 </head>
 <body>
+
+    <canvas id="neuroCanvas"></canvas>
 
     <nav>
         <div class="nav-container">
@@ -374,7 +445,7 @@
                 I am a Master's graduate at <strong>Politecnico di Milano</strong>, specializing in <strong>Artificial Intelligence and Machine Learning</strong>. My academic journey stands at the intersection of biological intelligence and computational systems.
             </p>
             <p>
-                With a background in <strong>Computer Engineering</strong>, a Double Major in <strong>Mathematics</strong>, and a Minor in <strong>Psychology</strong>, I aim to combine biological neural mechanisms and artificial neural networks into what we call <strong>NeuroAI</strong>.
+                I hold a Bachelor’s degree from <strong>Cankaya University</strong>strong> in <strong>Computer Engineering</strong>, with a Double Major in <strong>Mathematics</strong>, and a Minor in <strong>Psychology</strong>. I aim to combine biological neural mechanisms and artificial neural networks into what we call <strong>NeuroAI</strong>.
             </p>
             <ul style="list-style: none; margin-top: 10px;">
                 <li>🚀 <strong>Currently working on:</strong> Biologically inspired controllers, Generative AI and also Spiking Neural Networks (SNNs).</li>
@@ -427,6 +498,7 @@
                 <span class="timeline-company">Microsoft</span>
                 <p class="timeline-desc">Obtained 5 Azure certifications (AI, Data, Security). Published "Greywater Usage in Hotels" project using Power Apps.</p>
             </div>
+
             <div class="timeline-item">
                 <div class="timeline-title">Volunteer Summer Intern</div>
                 <span class="timeline-company">TUBITAK Space Technologies Research Institute</span>
@@ -461,13 +533,13 @@
                     <span class="tag">Python</span>
                     <span class="tag">C++</span>
                     <span class="tag">Docker</span>
-                    span class="tag">BSB - Neuron</span>
+                    <span class="tag">BSB - Neuron</span>
                 </div>
                 <a href="https://github.com/near-nes/controller" target="_blank" class="project-link">
                     <i class="fab fa-github"></i> Code
                 </a>
                 <a href="https://www.youtube.com/watch?v=zaqTUlpZjq0" target="_blank" class="project-link">
-                    <i class="fab fa-github"></i> Video
+                    <i class="fab fa-youtube"></i> Video
                 </a>
             </div>
 
@@ -502,7 +574,7 @@
                     <i class="fab fa-github"></i> Code
                 </a>
                  <a href="https://www.youtube.com/watch?v=6BXfPS3N4ak" target="_blank" class="project-link">
-                    <i class="fab fa-github"></i> Video
+                    <i class="fab fa-youtube"></i> Video
                 </a>
             </div>
 
@@ -524,7 +596,7 @@
         <h2>Technical Background</h2>
         <div class="skills-container">
             <div class="skill-badge"><i class="fab fa-python"></i> Python</div>
-            <div class="skill-badge"><i class="fas fa-code"></i> C++</div>
+            <div class="skill-badge"><i class="fas fa-code"></i> C/C++</div>
             <div class="skill-badge"><i class="fas fa-brain"></i> TensorFlow</div>
             <div class="skill-badge"><i class="fas fa-fire"></i> PyTorch</div>
             <div class="skill-badge"><i class="fas fa-network-wired"></i> NEST Simulator</div>
@@ -540,6 +612,114 @@
         <br><br>
         <p>© 2024 Volkan Mazlum. All rights reserved.</p>
     </footer>
+
+    <script>
+        const canvas = document.getElementById('neuroCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        
+        // NeuroAI Ayarları
+        const particleCount = 60; // Ekranda kaç nöron olacağı
+        const connectionDistance = 150; // Bağlantı mesafesi
+        const mouseDistance = 200; // Mouse etkileşim mesafesi
+
+        // Resize işlemi
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Mouse takibi
+        let mouse = { x: null, y: null };
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5; // Hız
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Ekran dışına çıkarsa geri döndür
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                // Mouse'dan kaçma veya çekilme efekti (Neuro etkileşimi)
+                if (mouse.x != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    if (distance < mouseDistance) {
+                        const forceDirectionX = dx / distance;
+                        const forceDirectionY = dy / distance;
+                        const force = (mouseDistance - distance) / mouseDistance;
+                        const directionX = forceDirectionX * force * 0.6;
+                        const directionY = forceDirectionY * force * 0.6;
+                        this.x -= directionX;
+                        this.y -= directionY;
+                    }
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#06b6d4'; // Cyan Rengi
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                // Bağlantıları çiz (Synapses)
+                for (let j = i; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        // Mesafeye göre şeffaflık
+                        let opacity = 1 - (distance / connectionDistance);
+                        ctx.strokeStyle = 'rgba(139, 92, 246, ' + opacity * 0.4 + ')'; // Mor bağlantılar
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
 
 </body>
 </html>
