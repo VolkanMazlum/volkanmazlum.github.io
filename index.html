@@ -39,24 +39,25 @@
 
         .builder-scene {
             position: relative;
-            width: 360px; /* Beyin sığsın diye biraz genişlettim */
-            height: 280px;
+            width: 400px; /* Beyin için geniş alan */
+            height: 300px;
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Debug için border açılabilir: border: 1px solid red; */
         }
 
         /* Nöron Noktaları */
         .neuron-dot {
             position: absolute;
-            width: 7px; height: 7px;
+            width: 6px; height: 6px;
             background-color: var(--accent-cyan);
             border-radius: 50%;
             opacity: 0;
             box-shadow: 0 0 5px var(--accent-cyan);
             /* Hareket ederken yumuşak geçiş */
-            transition: top 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), 
-                        left 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+            transition: top 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1),
                         background-color 0.8s, box-shadow 0.8s;
             z-index: 5;
         }
@@ -80,15 +81,14 @@
 
         /* --- IŞIKLAR YANSIN EFEKTİ --- */
         .builder-scene.lights-on .neuron-dot {
-            background-color: var(--text-primary); /* Krem rengi, çok parlak */
-            box-shadow: 0 0 15px var(--text-primary), 0 0 30px var(--accent-cyan); /* Güçlü parlama */
+            background-color: #ffffff; /* Tam Beyaz Parlama */
+            box-shadow: 0 0 10px #ffffff, 0 0 20px var(--accent-cyan);
         }
 
         .builder-scene.lights-on .synapse-line {
-            stroke: var(--text-primary); /* Hatlar da parlasın */
-            stroke-width: 2;
-            opacity: 0.8;
-            filter: drop-shadow(0 0 8px var(--accent-cyan));
+            stroke: var(--text-primary); 
+            stroke-width: 1.5;
+            opacity: 0.6;
         }
 
         /* Küçük Tatlı Adam */
@@ -215,6 +215,7 @@
         .hero-titles { font-size: 1.2rem; color: var(--accent-cyan); margin-bottom: 25px; font-weight: 500; letter-spacing: 1px; }
         .hero p { max-width: 600px; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
         
+        /* RESİMLERİN STİLİ */
         .hero-side-img {
             position: absolute; top: 50%; transform: translateY(-50%); width: 280px; height: auto;
             border-radius: 20px; border: 2px solid var(--accent-cyan);
@@ -284,7 +285,7 @@
     <div id="intro-overlay">
         <div class="builder-scene" id="scene-container">
             
-            <svg id="synapse-svg" width="360" height="280"></svg>
+            <svg id="synapse-svg" width="400" height="300"></svg>
 
             <div id="neuron-container"></div>
 
@@ -316,6 +317,9 @@
     </nav>
 
     <header id="home" class="hero">
+        <img src="SOL_RESIM_DOSYASI.jpg" alt="Profile Left" class="hero-side-img img-left">
+        <img src="SAG_RESIM_DOSYASI.jpg" alt="Profile Right" class="hero-side-img img-right">
+
         <p style="margin-bottom: 0; color: var(--accent-cyan);">Hi there, I'm</p>
         <h1>Volkan Mazlum</h1>
         <div class="hero-titles">
@@ -626,7 +630,7 @@
             if(clickedBtn) clickedBtn.classList.add("active");
         }
 
-        // --- GELİŞMİŞ INTRO ANIMASYONU (Detaylı Beyin ve Işık Efekti) ---
+        // --- GELİŞMİŞ INTRO ANIMASYONU (ANATOMİK BEYİN ŞEKLİ) ---
         const overlay = document.getElementById('intro-overlay');
         const man = document.getElementById('builder-man');
         const neuronContainer = document.getElementById('neuron-container');
@@ -648,36 +652,47 @@
             createdDots.push(dot);
         }
 
-        // Daha gerçekçi bir beyin silüeti için detaylı koordinatlar (Center: ~180, 140)
+        // *** GÜNCELLENMİŞ KOORDİNATLAR: DAHA GERÇEKÇİ YAN PROFİL BEYİN ŞEKLİ ***
+        // Merkez noktası ~ 200, 150
         const finalBrainOffsets = [
-            // Frontal Lobe (Ön)
-            {x: -60, y: -30}, {x: -80, y: -10}, {x: -85, y: 20}, {x: -75, y: 50},
-            // Parietal/Occipital (Üst ve Arka)
-            {x: -40, y: -60}, {x: 0, y: -75}, {x: 40, y: -70}, {x: 70, y: -50}, 
-            {x: 90, y: -20}, {x: 95, y: 10}, {x: 85, y: 40},
-            // Temporal/Cerebellum (Alt Kısım - Daha kıvrımlı)
-            {x: 60, y: 65}, {x: 30, y: 80}, {x: 0, y: 70}, {x: -20, y: 85}, {x: -50, y: 75},
-            // İç Dolgu Noktaları (Rastgele dağılım)
-            {x: -30, y: -20}, {x: -50, y: 10}, {x: -20, y: 35}, {x: 10, y: 0},
-            {x: 30, y: -30}, {x: 50, y: -10}, {x: 60, y: 25}, {x: 20, y: 45},
-            {x: -10, y: -40}, {x: 20, y: -50}, {x: 40, y: 10}, {x: 0, y: 30},
-            {x: -65, y: 30}, {x: 75, y: -30}, {x: -30, y: 60}, {x: 50, y: 60},
-            // Brainstem (Sap)
-            {x: -10, y: 95}, {x: 10, y: 100}, {x: 0, y: 110}
+            // FRONTAL LOBE (Ön taraf - Yuvarlak ve öne doğru çıkık)
+            {x: -80, y: -20}, {x: -75, y: -45}, {x: -60, y: -65}, {x: -40, y: -75},
+            {x: -90, y: 10}, {x: -85, y: 35}, {x: -70, y: 55},
+
+            // PARIETAL LOBE (Üst orta)
+            {x: -10, y: -85}, {x: 20, y: -80}, {x: 50, y: -70}, {x: 80, y: -50},
+
+            // OCCIPITAL LOBE (Arka taraf - Yuvarlak)
+            {x: 100, y: -20}, {x: 105, y: 10}, {x: 95, y: 35},
+
+            // TEMPORAL LOBE (Alt orta)
+            {x: -40, y: 65}, {x: -10, y: 70}, {x: 20, y: 60}, {x: 50, y: 45},
+
+            // CEREBELLUM (Beyincik - Arkada altta ayrı bir topak gibi)
+            {x: 70, y: 60}, {x: 85, y: 70}, {x: 75, y: 85}, {x: 55, y: 80},
+
+            // BRAINSTEM (Beyin sapı - Aşağı uzanan)
+            {x: 10, y: 90}, {x: 5, y: 110}, {x: 20, y: 115},
+
+            // İÇ DOLGU (Beynin içi boş kalmasın)
+            {x: -50, y: -20}, {x: -30, y: -40}, {x: 0, y: -30}, {x: 30, y: -20},
+            {x: 60, y: -10}, {x: -20, y: 10}, {x: 10, y: 10}, {x: 40, y: 10},
+            {x: -40, y: 30}, {x: -10, y: 40}, {x: 20, y: 30}, {x: 50, y: 20},
+            {x: -60, y: 0}, {x: 70, y: 0}, {x: 0, y: 0}
         ];
 
         async function organizeDotsIntoBrain() {
-            const centerX = 180;
-            const centerY = 140;
+            const centerX = 200;
+            const centerY = 130;
             let svgContent = '';
 
             for (let i = 0; i < createdDots.length; i++) {
                 const dot = createdDots[i];
-                // Koordinat listesinden sırayla al, biterse başa dön
                 const target = finalBrainOffsets[i % finalBrainOffsets.length];
                 
-                const noiseX = (Math.random() - 0.5) * 15; // Biraz daha rastgelelik
-                const noiseY = (Math.random() - 0.5) * 15;
+                // Hafif rastgelelik (Doğal görünüm için)
+                const noiseX = (Math.random() - 0.5) * 10;
+                const noiseY = (Math.random() - 0.5) * 10;
 
                 const finalX = centerX + target.x + noiseX;
                 const finalY = centerY + target.y + noiseY;
@@ -701,19 +716,19 @@
         async function runConstructionAnimation() {
             await new Promise(r => setTimeout(r, 500));
 
-            // Adam sağa sola koşup daha fazla nöron bıraksın (50+ nöron için)
+            // Adam sağa sola koşarak nöron bırakıyor
             const moves = [
-                { x: 220, t: 350 }, { x: 100, t: 350 }, 
-                { x: 260, t: 300 }, { x: 60, t: 300 },
-                { x: 180, t: 300 } // Ortada dur
+                { x: 250, t: 350 }, { x: 100, t: 350 }, 
+                { x: 280, t: 300 }, { x: 80, t: 300 },
+                { x: 200, t: 300 } // Ortada dur
             ];
 
             for (let move of moves) {
                 man.style.left = move.x + 'px';
-                // Nöron üretimini artırdım (her adımda 10 nöron)
-                let steps = 10;
+                // Daha sık nöron bırak (Daha yoğun görüntü için)
+                let steps = 12;
                 for(let i=0; i<steps; i++) {
-                    createNeuron(move.x + (Math.random()*30-15), 220 + (Math.random()*50-25));
+                    createNeuron(move.x + (Math.random()*40-20), 220 + (Math.random()*60-30));
                     await new Promise(r => setTimeout(r, move.t / steps));
                 }
             }
@@ -723,15 +738,15 @@
             await new Promise(r => setTimeout(r, 2000));
             speechBubble.classList.remove('show');
             
-            // Nöronlar Detaylı Beyni Oluşturuyor!
+            // Nöronlar Beyni Oluşturuyor!
             await new Promise(r => setTimeout(r, 300));
             organizeDotsIntoBrain();
 
             // Şekil oluştuktan sonra bekle ve IŞIKLARI YAK!
-            await new Promise(r => setTimeout(r, 1600));
+            await new Promise(r => setTimeout(r, 1500));
             sceneContainer.classList.add('lights-on');
 
-            // Yazı Yazma (Işıklar yandıktan sonra)
+            // Yazı Yazma
             await new Promise(r => setTimeout(r, 800)); 
             const finalMsg = "Ready to think.";
             for (let char of finalMsg) {
@@ -803,7 +818,6 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                // Arka plan parçacık rengi: Haki (#d6cd88)
                 ctx.fillStyle = '#d6cd88';
                 ctx.fill();
             }
@@ -828,7 +842,6 @@
                     if (distance < connectionDistance) {
                         ctx.beginPath();
                         let opacity = 1 - (distance / connectionDistance);
-                        // Arka plan bağlantı rengi: Zeytin Yeşili (#6b8c42)
                         ctx.strokeStyle = 'rgba(107, 140, 66, ' + opacity * 0.4 + ')';
                         ctx.lineWidth = 1;
                         ctx.moveTo(particles[i].x, particles[i].y);
