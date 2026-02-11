@@ -737,14 +737,14 @@
                 await new Promise(r => setTimeout(r, 50));
             }
 
-            // Alt metni göster (Senin eklediğin not)
+            // Alt metni göster
             subText.classList.add('visible');
 
             // KUTLAMA: Yazı bitti, adam seviniyor
             man.classList.add('celebrate');
             
             // Kapanış
-            await new Promise(r => setTimeout(r, 3000)); // Yazının okunması için biraz daha süre verdim
+            await new Promise(r => setTimeout(r, 7000)); // Yazının okunması için biraz daha süre verdim
             overlay.classList.add('hide-intro');
         }
 
