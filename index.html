@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volkan Mazlum | Computer Engineer & NeuroAI Researcher</title>
+    <title>Volkan Mazlum | PhD Researcher · Soft Robotics & NeuroAI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* --- RENK PALETİ (KOYU YEŞİL / HAKİ / KREM) --- */
@@ -98,7 +98,7 @@
         .cute-man.celebrate { animation: happyJump 0.5s infinite ease-in-out; }
         .cute-man.celebrate .man-body { background-color: var(--accent-purple); }
 
-        /* Konuşma Balonu Benimmm bu*/
+        /* Konuşma Balonu */
         .speech-bubble {
             position: absolute; top: -70px; left: 50%; transform: translateX(-50%) scale(0);
             background: var(--text-primary); color: #0b1a0e; padding: 10px 15px; border-radius: 15px;
@@ -133,8 +133,7 @@
             min-height: 1.5em;
         }
 
-        /* Başarmanın göstergesi mi bu*/
-        .intro-sub-text {
+                .intro-sub-text {
             font-family: 'Segoe UI', sans-serif;
             color: var(--text-secondary);
             font-size: 0.9rem;
@@ -267,7 +266,7 @@
 
             <div class="cute-man" id="builder-man">
                 <div class="speech-bubble" id="speech-bubble">
-                    Hi! I'm Volkan,<br>Computer Engineer.
+                    Hi! I'm Volkan,<br>PhD Researcher.
                 </div>
                 <div class="man-head"></div>
                 <div class="man-body"></div>
@@ -305,12 +304,12 @@
         <p style="margin-bottom: 0; color: var(--accent-cyan);">Hi there, I'm</p>
         <h1>Volkan Mazlum</h1>
         <div class="hero-titles">
-            AI Engineer | NeuroAI Researcher | Mathematician
+            PhD Researcher | Soft Robotics · NeuroAI · Machine Learning
         </div>
         <p>
-            Combining biological neural mechanisms and artificial intelligence. 
+            PhD student at the <strong>University of Tartu</strong>, working on soft robotics with AI.
             <br>M.Sc. graduate from <strong>Politecnico di Milano</strong>.
-            <br> Open to collaborations in AI, ML, & NeuroAI. Always learning, always evolving.
+            <br>Open to collaborations in brain-inspired ML, RL, interpretability and soft robotics.
         </p>
         <div>
             <a href="https://www.linkedin.com/in/volkanmazlum/" target="_blank" class="social-btn">
@@ -337,6 +336,7 @@
         <div id="education" class="about-content active highlight-text">
             <p>My academic foundation is built on a rigorous multidisciplinary approach.</p>
             <ul style="list-style: none; margin-top: 15px; line-height: 2;">
+                <li>🎓 <strong>PhD (ongoing)</strong> - University of Tartu, Estonia</li>
                 <li>🎓 <strong>M.Sc. Computer Science and Engineering</strong> - Politecnico di Milano</li>
                 <li>🎓 <strong>B.Sc. Computer Engineering</strong> - Cankaya University</li>
                 <li>📐 <strong>Double Major in Mathematics</strong> - Cankaya University</li>
@@ -345,25 +345,76 @@
         </div>
 
         <div id="focus" class="about-content highlight-text">
-            <p>My research stands at the intersection of biological intelligence and computational systems. I am working towards bridging the gap between how brains work and how machines learn.
-                <br> Professionally, I work on designing and implementing automation systems to enable companies' AI transformations. I also have experience in data science and machine learning.
+            <p>My research stands at the intersection of biological intelligence, soft robotics and machine learning. I am working towards bridging the gap between how brains work and how machines learn.
+                <br>In my PhD with Indrek Must, I build AI-driven control for soft robots made of fibrous materials, and I study how those materials can compute.
             </p>
             <ul style="list-style: none; margin-top: 10px;">
-                <li>🚀 <strong>Currently working on:</strong> Biologically inspired controllers, Generative AI, AI Agents, and Spiking Neural Networks (SNNs).</li>
-                <li>🧠 <strong>Focus Areas:</strong> Computational Neuroscience, Cognitive Architectures, LLMs, Artificial Intelligence, and NeuroAI.</li>
+                <li>🚀 <strong>Currently working on:</strong> MPC-guided fibre spinning, physical reservoir computing with fibre networks, and deep learning for medical imaging.</li>
+                <li>🧠 <strong>Focus Areas:</strong> Brain-inspired ML, Reinforcement Learning, Interpretability, Computational Neuroscience, and Bioinspired Soft Robotics.</li>
             </ul>
         </div>
 
         <div id="background" class="about-content highlight-text">
-            <p>I specialize in <strong>Artificial Intelligence and Machine Learning</strong>. I aim to combine biological neural mechanisms and artificial neural networks into what we call <strong>NeuroAI</strong>.</p>
-            <p style="margin-top: 10px;">From analyzing mRNA expression data to simulating cerebellar control systems, my journey is defined by a curiosity to understand intelligence itself.</p>
-            <p style="margin-top: 10px;">I don't just program; I build AI Agents and custom LLMs to streamline your business processes.</p>
+            <p>I specialize in <strong>Artificial Intelligence and Machine Learning</strong>. I aim to combine biological neural mechanisms and artificial neural networks, a field known as <strong>NeuroAI</strong>.</p>
+            <p style="margin-top: 10px;">From analyzing mRNA expression data to simulating cerebellar control systems and now controlling soft robots, my journey is defined by a curiosity to understand intelligence itself.</p>
         </div>
     </section>
 
     <section id="research">
         <h2>Research & Academic Experience</h2>
         <div class="experience-list">
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">PhD Researcher</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">University of Tartu - Soft Robotics (supervisor: Indrek Must)</span>
+                <div class="card-details">
+                    <p>Developing a model predictive controller (MPC) that guides in-situ melt-blow spinning of fibrous soft grippers. A camera-based gap detector and a learned deposition model decide where fibre should be added next.
+                    <br>Built a fibre-deposition simulation in MuJoCo to train and validate the controller before lab experiments.
+                    <br>Investigating randomly formed, still-growing fibre networks as physical reservoir computers.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">MuJoCo</span>
+                        <span class="tag">MPC</span>
+                        <span class="tag">Computer Vision</span>
+                        <span class="tag">Reservoir Computing</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Skin Lesion Classification</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Medical Imaging Research (MEDICON paper, journal extension in progress)</span>
+                <div class="card-details">
+                    <p>Multimodal dermoscopy classifier on the HAM10000 dataset, extending our MEDICON conference paper into a journal paper.</p>
+                    <div class="tech-tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">Medical Imaging</span>
+                        <span class="tag">Data Augmentation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
+                    <div class="card-title">Synthetic Augmentation for Drowsiness Recognition</div>
+                    <i class="fas fa-plus card-icon"></i>
+                </div>
+                <span class="card-subtitle">Research Collaboration (paper in revision)</span>
+                <div class="card-details">
+                    <p>Compares GAN-based and diffusion-based synthetic data augmentation for eye-state and yawning recognition in driver drowsiness detection.</p>
+                    <div class="tech-tags">
+                        <span class="tag">GANs</span>
+                        <span class="tag">Diffusion Models</span>
+                        <span class="tag">TensorFlow</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="expandable-card">
                 <div class="card-header">
                     <div class="card-title">Master Thesis Student</div>
@@ -373,7 +424,7 @@
                 <div class="card-details">
                     <p> Developed a bio-inspired closed-loop Spiking Neural Network (SNN) controller for a virtual robotic arm, implementing adaptive cerebellar internal models to enable efficient motor control and trajectory planning.
                     <br>Integrated the neural system with the EBRAINS Neurorobotics Platform (NRP) and PyBullet physics engine, utilizing High-Performance Computing (HPC) clusters and containerization (Docker/Singularity) for scalable simulations.
-                    <br>Designed and validated a neuromorphic motor controller using Spiking Neural Networks and the Neurorobotics Platform, implementing supervised learning and biological plasticity rules for real-time robotic adaptation.</p>
+                    <br>Implemented supervised learning and biological plasticity rules for real-time robotic adaptation.</p>
                 </div>
             </div>
              
@@ -431,8 +482,7 @@
                 </div>
                 <span class="card-subtitle">Turkish Aerospace (TUSAŞ)</span>
                 <div class="card-details">
-                    <p>Collaborated with a cross-functional team of 10 engineers to deploy agile solutions, resulting in an improvement in operational efficiency.
-                    <br>Integrated emerging technologies into business processes to improve workflows.</p>
+                    <p>Worked in a cross-functional team of 10 engineers on agile solutions, integrating emerging technologies into business workflows.</p>
                 </div>
             </div>
 
@@ -443,7 +493,7 @@
                 </div>
                 <span class="card-subtitle">Microsoft</span>
                 <div class="card-details">
-                    <p>Obtained 5 Azure certifications (AI, Data, Security). Published "Greywater Usage in Hotels" project using Power Apps.</p>
+                    <p>Obtained 5 Azure certifications (AI, Data, Security and more).</p>
                 </div>
             </div>
 
@@ -466,7 +516,7 @@
                 </div>
                 <span class="card-subtitle">STM</span>
                 <div class="card-details">
-                    <p>Worked on image transmission between drones and platforms using MAVlink protocol with C++.</p>
+                    <p>Worked on image transmission between drones and platforms using the MAVLink protocol in C++.</p>
                 </div>
             </div>
 
@@ -483,11 +533,9 @@
                     <i class="fas fa-expand-alt card-icon"></i>
                 </div>
                 <div class="card-details">
-                    <p>Developed a biologically inspired controller simulating 10,000+ neuron interactions. Achieved 98% success in synaptic adaptation tests.
-                        <br> Designed and validated a neuromorphic motor controller using Spiking Neural Networks and the Neurorobotics Platform, implementing supervised learning and biological plasticity rules for real-time robotic adaptation.
-                        <br> Developed a bio-inspired closed-loop Spiking Neural Network (SNN) controller for a virtual robotic arm, implementing adaptive cerebellar internal models to enable efficient motor control and trajectory planning.
-                    </p>
+                    <p>A biologically inspired cerebellar SNN controller for a virtual robotic arm, simulating 10,000+ neuron interactions. Achieved 98% success in synaptic adaptation tests.</p>
                     <div class="tech-tags">
+                        <span class="tag">NEST</span>
                         <span class="tag">NESTML</span>
                         <span class="tag">Python</span>
                         <span class="tag">C++</span>
@@ -510,7 +558,7 @@
                     <i class="fas fa-expand-alt card-icon"></i>
                 </div>
                 <div class="card-details">
-                    <p>Created a complete, production-ready Multi-Agent AI System that implements the Global Workspace Theory with a bidding/competition architecture with the similar components of our brain such as frontal lob, parietal lob< hippocampus and etc..</p>
+                    <p>A multi-agent AI system inspired by Global Workspace Theory. Agents modelled on brain regions (frontal lobe, parietal lobe, hippocampus and more) compete through a bidding architecture for access to a shared workspace.</p>
                     <div class="tech-tags">
                         <span class="tag">React</span>
                         <span class="tag">Generative AI</span>
@@ -608,12 +656,27 @@
 
             <div class="expandable-card">
                 <div class="card-header">
+                    <h3 class="card-title">Habituation-Based Regularizer</h3>
+                    <i class="fas fa-expand-alt card-icon"></i>
+                </div>
+                <div class="card-details">
+                    <p>An adaptive regularizer inspired by neural habituation, explored as a new alternative to dropout-style methods.</p>
+                    <div class="tech-tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">Kaggle</span>
+                        <span class="tag">Regularization</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable-card">
+                <div class="card-header">
                     <h3 class="card-title">Bioinformatics Decision Support</h3>
                     <i class="fas fa-expand-alt card-icon"></i>
                 </div>
                 <div class="card-details">
                     <p>Integrated mRNA and miRNA expression data to infer regulatory circuits (miRcuit).
-                        <br> Accelerated data processing via ML pipelines, achieving over 90% accuracy
+                        <br> Accelerated data processing via ML pipelines, achieving over 90% accuracy.
                         <br> Publication: “miRcuit: A tool for integrating mRNA and miRNA expression data analysis to infer regulatory circuits.”
                     </p>
                     <div class="tech-tags">
@@ -635,6 +698,7 @@
             <div class="skill-badge"><i class="fas fa-code"></i> C/C++</div>
             <div class="skill-badge"><i class="fas fa-brain"></i> TensorFlow</div>
             <div class="skill-badge"><i class="fas fa-fire"></i> PyTorch</div>
+            <div class="skill-badge"><i class="fas fa-robot"></i> MuJoCo</div>
             <div class="skill-badge"><i class="fas fa-network-wired"></i> NEST Simulator</div>
             <div class="skill-badge"><i class="fas fa-calculator"></i> MATLAB</div>
             <div class="skill-badge"><i class="fab fa-docker"></i> Docker</div>
